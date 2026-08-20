@@ -1,0 +1,28 @@
+{
+  "kind": "question-sets",
+  "exportedAt": "2026-08-20T04:42:37.086Z",
+  "source": {
+    "subExamCategoryId": "cmshno1mg0001uxfksocif381",
+    "name": "কম্পিউটার অপারেটর",
+    "slug": "computer-operator",
+    "examCategoryName": "১১ থেকে ২০তম গ্রেডের সরকারি চাকরি প্রস্তুতি",
+    "examCategorySlug": "11-20-grade-job-preparation"
+  },
+  "sets": [
+    {
+      "sourceId": "cmsmz86b1001tuxh43wh1v4gi",
+      "title": "বাগধারা, MS Word বেসিক, Article",
+      "date": "2026-08-10",
+      "totalMarks": 25,
+      "duration": 20,
+      "subject": "বাংলা, কম্পিউটার, English",
+      "topics": "বাগধারা, MS Word পরিচিতি ও বেসিক ফাংশন, Article (a, an, the)",
+      "sourceMaterial": "NCTB নবম-দশম শ্রেণি বাংলা ব্যাকরণ বই, &#x27;কম্পিউটার অফিস অ্যাপ্লিকেশন&#x27; (এনসিটিবি), &#x27;English Grammar in Use&#x27; (Raymond Murphy)",
+      "markPerQuestion": 1,
+      "negativeMark": 0.25,
+      "isFree": false,
+      "isLive": false,
+      "isActive": false
+    }
+  ]
+}

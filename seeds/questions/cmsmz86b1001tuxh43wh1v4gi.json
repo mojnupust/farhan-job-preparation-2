@@ -1,0 +1,21 @@
+{
+  "kind": "questions",
+  "exportedAt": "2026-08-20T04:44:48.020Z",
+  "source": {
+    "questionSetId": "cmsmz86b1001tuxh43wh1v4gi",
+    "title": "বাগধারা, MS Word বেসিক, Article",
+    "date": "2026-08-10",
+    "subject": "বাংলা, কম্পিউটার, English",
+    "subExamCategory": {
+      "id": "cmshno1mg0001uxfksocif381",
+      "name": "কম্পিউটার অপারেটর",
+      "slug": "computer-operator"
+    },
+    "examCategory": {
+      "id": "cmpyudvp30006uxvg3ypt4mnn",
+      "name": "১১ থেকে ২০তম গ্রেডের সরকারি চাকরি প্রস্তুতি",
+      "slug": "11-20-grade-job-preparation"
+    }
+  },
+  "questions": []
+}

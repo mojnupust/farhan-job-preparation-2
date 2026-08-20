@@ -34,7 +34,11 @@
     "smoke:slides": "tsx --env-file=.env scripts/smoke-test-slides.ts",
     "smoke:broadcast": "tsx --env-file=.env scripts/smoke-broadcast-phase3.ts",
     "fonts:slides": "tsx scripts/download-slide-fonts.ts",
-    "db:backfill-topic-subTopic": "tsx --env-file=.env prisma/backfull-topic-subTopic-mistral.ts"
+    "db:backfill-topic-subTopic": "tsx --env-file=.env prisma/backfull-topic-subTopic-mistral.ts",
+    "export:question-sets": "tsx --env-file=.env scripts/export-question-sets.ts",
+    "export:questions": "tsx --env-file=.env scripts/export-questions.ts",
+    "db:seed-exported-question-sets": "tsx --env-file=.env prisma/seed-exported-question-sets.ts",
+    "db:seed-exported-questions": "tsx --env-file=.env prisma/seed-exported-questions.ts"
   },
   "keywords": [
     "express",

@@ -1,0 +1,93 @@
+{
+  "exportedAt": "2026-08-20T04:42:37.092Z",
+  "files": [
+    {
+      "file": "recent-job-solution-2026.json",
+      "subExamCategoryId": "cmqc49fnu0001uxug0zvgs0c1",
+      "slug": "recent-job-solution-2026",
+      "name": "Recent Job Solution 2026",
+      "examCategorySlug": "11-20-grade-job-preparation",
+      "setCount": 1
+    },
+    {
+      "file": "19th-ntrca-preparation.json",
+      "subExamCategoryId": "cmnv745hc000huxikxavri5d3",
+      "slug": "19th-ntrca-preparation",
+      "name": "19th (NTRCA) বেসরকারি শিক্ষক নিয়োগ প্রস্তুতি",
+      "examCategorySlug": "teacher-recruitment",
+      "setCount": 3
+    },
+    {
+      "file": "bcs-job-solution.json",
+      "subExamCategoryId": "cmnv745290005uxikq56hsyxc",
+      "slug": "bcs-job-solution",
+      "name": "বিসিএস প্রিলিমিনারি জব সল্যুশন",
+      "examCategorySlug": "job-solution",
+      "setCount": 40
+    },
+    {
+      "file": "samajseba-odhidoptor.json",
+      "subExamCategoryId": "cmpyvd9m70001uxgcoxb7tx5f",
+      "slug": "samajseba-odhidoptor",
+      "name": "সমাজসেবা অধিদপ্তর",
+      "examCategorySlug": "11-20-grade-job-preparation",
+      "setCount": 0
+    },
+    {
+      "file": "daily-20-gk.json",
+      "subExamCategoryId": "cmqb29yhs000sf7015n7f17hu",
+      "slug": "daily-20-gk",
+      "name": "প্রতিদিন ২০ টি সাধারণ জ্ঞাণ",
+      "examCategorySlug": "11-20-grade-job-preparation",
+      "setCount": 5
+    },
+    {
+      "file": "bangla.json",
+      "subExamCategoryId": "cmsmyqkv80001uxh4s30dzrcy",
+      "slug": "bangla",
+      "name": "বাংলা",
+      "examCategorySlug": "teacher-recruitment",
+      "setCount": 1
+    },
+    {
+      "file": "ntrca-teacher-school-college.json",
+      "subExamCategoryId": "cmq098a740006at01qpijpr1q",
+      "slug": "ntrca-teacher-school-college",
+      "name": "বেসরকারি শিক্ষক নিবন্ধন (স্কুল-কলেজ) ",
+      "examCategorySlug": "free-saptahik-model-test",
+      "setCount": 0
+    },
+    {
+      "file": "ntrca-job-solution.json",
+      "subExamCategoryId": "cmnv7455y0007uxikovownw5m",
+      "slug": "ntrca-job-solution",
+      "name": "বেসরকারি শিক্ষক নিয়োগ (NTRCA) জব সল্যুশন",
+      "examCategorySlug": "job-solution",
+      "setCount": 27
+    },
+    {
+      "file": "only-ict.json",
+      "subExamCategoryId": "cmopm6c5u0001uxzgaig4s2gf",
+      "slug": "only-ict",
+      "name": "Only ICT",
+      "examCategorySlug": "job-solution",
+      "setCount": 0
+    },
+    {
+      "file": "computer-operator.json",
+      "subExamCategoryId": "cmshno1mg0001uxfksocif381",
+      "slug": "computer-operator",
+      "name": "কম্পিউটার অপারেটর",
+      "examCategorySlug": "11-20-grade-job-preparation",
+      "setCount": 1
+    },
+    {
+      "file": "somajseba-job-solution.json",
+      "subExamCategoryId": "cmq7zhbz7000lf701ivjcd5h7",
+      "slug": "somajseba-job-solution",
+      "name": "সমাজসেবা অধিদপ্তর জব সল্যুশন",
+      "examCategorySlug": "job-solution",
+      "setCount": 2
+    }
+  ]
+}

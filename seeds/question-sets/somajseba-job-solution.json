@@ -1,0 +1,43 @@
+{
+  "kind": "question-sets",
+  "exportedAt": "2026-08-20T04:42:37.090Z",
+  "source": {
+    "subExamCategoryId": "cmq7zhbz7000lf701ivjcd5h7",
+    "name": "সমাজসেবা অধিদপ্তর জব সল্যুশন",
+    "slug": "somajseba-job-solution",
+    "examCategoryName": "জব সল্যুশন",
+    "examCategorySlug": "job-solution"
+  },
+  "sets": [
+    {
+      "sourceId": "cmq94rdxl000pf701qqsagh8u",
+      "title": "সমাজসেবা অফিসার নিয়োগ পরীক্ষার প্রশ্ন সমাধান-২০১০",
+      "date": "2010-04-30",
+      "totalMarks": 100,
+      "duration": 60,
+      "subject": "বাংলা,  ইংরেজি, গণিত, সাধারণ জ্ঞান",
+      "topics": "",
+      "sourceMaterial": "",
+      "markPerQuestion": 1,
+      "negativeMark": 0.25,
+      "isFree": true,
+      "isLive": true,
+      "isActive": true
+    },
+    {
+      "sourceId": "cmq801kai000nf7019tv741i5",
+      "title": "সমাজসেবা অধিদপ্তরের ইউনিয়ন সমাজকর্মী নিয়োগ পরীক্ষা-২০২২",
+      "date": "2022-10-22",
+      "totalMarks": 70,
+      "duration": 60,
+      "subject": "বাংলা,  ইংরেজি, গণিত, সাধারণ জ্ঞান",
+      "topics": "",
+      "sourceMaterial": "",
+      "markPerQuestion": 1,
+      "negativeMark": 0.25,
+      "isFree": true,
+      "isLive": false,
+      "isActive": true
+    }
+  ]
+}

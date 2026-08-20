@@ -1,0 +1,88 @@
+{
+  "kind": "question-sets",
+  "exportedAt": "2026-08-20T04:42:37.070Z",
+  "source": {
+    "subExamCategoryId": "cmqb29yhs000sf7015n7f17hu",
+    "name": "প্রতিদিন ২০ টি সাধারণ জ্ঞাণ",
+    "slug": "daily-20-gk",
+    "examCategoryName": "১১ থেকে ২০তম গ্রেডের সরকারি চাকরি প্রস্তুতি",
+    "examCategorySlug": "11-20-grade-job-preparation"
+  },
+  "sets": [
+    {
+      "sourceId": "cmqb499jk000wf70184pc1ofi",
+      "title": "Daily GK Day 1 of 365",
+      "date": "2026-06-12",
+      "totalMarks": 20,
+      "duration": 5,
+      "subject": "সাধারণ জ্ঞান",
+      "topics": "",
+      "sourceMaterial": "",
+      "markPerQuestion": 1,
+      "negativeMark": 0.25,
+      "isFree": true,
+      "isLive": false,
+      "isActive": true
+    },
+    {
+      "sourceId": "cmqbt2ggc000yf70186xxhj4z",
+      "title": "Daily GK Day 2 of 365",
+      "date": "2026-06-13",
+      "totalMarks": 20,
+      "duration": 5,
+      "subject": "সাধারণ জ্ঞান",
+      "topics": "",
+      "sourceMaterial": "",
+      "markPerQuestion": 1,
+      "negativeMark": 0.25,
+      "isFree": true,
+      "isLive": false,
+      "isActive": true
+    },
+    {
+      "sourceId": "cmqd8fev50026f701veorb0d5",
+      "title": "Daily GK Day 3 of 365",
+      "date": "2026-06-14",
+      "totalMarks": 20,
+      "duration": 5,
+      "subject": "সাধারণ জ্ঞান",
+      "topics": "",
+      "sourceMaterial": "",
+      "markPerQuestion": 1,
+      "negativeMark": 0.25,
+      "isFree": true,
+      "isLive": false,
+      "isActive": true
+    },
+    {
+      "sourceId": "cmqewz60z002af701ogsdekdz",
+      "title": "Daily GK Day 4 of 365 ",
+      "date": "2026-06-15",
+      "totalMarks": 20,
+      "duration": 5,
+      "subject": "সাধারণ জ্ঞান",
+      "topics": "",
+      "sourceMaterial": "",
+      "markPerQuestion": 1,
+      "negativeMark": 0.25,
+      "isFree": true,
+      "isLive": true,
+      "isActive": true
+    },
+    {
+      "sourceId": "cmsafn6by0005uxs4ldj9vp1a",
+      "title": "Test Model 5",
+      "date": "2026-08-01",
+      "totalMarks": 80,
+      "duration": 60,
+      "subject": "all",
+      "topics": "",
+      "sourceMaterial": "",
+      "markPerQuestion": 1,
+      "negativeMark": 0.25,
+      "isFree": false,
+      "isLive": false,
+      "isActive": true
+    }
+  ]
+}

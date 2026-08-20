@@ -1,0 +1,565 @@
+{
+  "exportedAt": "2026-08-20T04:44:49.391Z",
+  "files": [
+    {
+      "file": "cmp6hn3740003uxosqiw7wpv2.json",
+      "questionSetId": "cmp6hn3740003uxosqiw7wpv2",
+      "title": " DAY 1 of 41 | BCS Job Solution (10th) ",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 99
+    },
+    {
+      "file": "cmp6hn3n2002vuxos5y54v69c.json",
+      "questionSetId": "cmp6hn3n2002vuxos5y54v69c",
+      "title": "১১তম বিসিএস প্রশ্ন সমাধান | 11th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 94
+    },
+    {
+      "file": "cmp6hn46m005juxosee53vdh9.json",
+      "questionSetId": "cmp6hn46m005juxosee53vdh9",
+      "title": "১২তম বিসিএস প্রশ্ন সমাধান | 12th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 95
+    },
+    {
+      "file": "cmp6hn4k00088uxosc3qdcnoo.json",
+      "questionSetId": "cmp6hn4k00088uxosc3qdcnoo",
+      "title": "১৩তম বিসিএস প্রশ্ন সমাধান | 13th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 97
+    },
+    {
+      "file": "cmp6hn4z500azuxosci6tk834.json",
+      "questionSetId": "cmp6hn4z500azuxosci6tk834",
+      "title": "১৪তম বিসিএস প্রশ্ন সমাধান | 14th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 96
+    },
+    {
+      "file": "cmp6hn5dn00dpuxosv4pcn03c.json",
+      "questionSetId": "cmp6hn5dn00dpuxosv4pcn03c",
+      "title": "১৫তম বিসিএস প্রশ্ন সমাধান | 15th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 96
+    },
+    {
+      "file": "cmp6hn5p800gfuxosvl4kt5yw.json",
+      "questionSetId": "cmp6hn5p800gfuxosvl4kt5yw",
+      "title": "১৬তম বিসিএস প্রশ্ন সমাধান | 16th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 88
+    },
+    {
+      "file": "cmp6hn62h00ixuxoslhjcapro.json",
+      "questionSetId": "cmp6hn62h00ixuxoslhjcapro",
+      "title": "১৭তম বিসিএস প্রশ্ন সমাধান | 17th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 97
+    },
+    {
+      "file": "cmp6hn6dj00louxosp2kn32uj.json",
+      "questionSetId": "cmp6hn6dj00louxosp2kn32uj",
+      "title": "১৮তম বিসিএস প্রশ্ন সমাধান | 18th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 95
+    },
+    {
+      "file": "cmp6hn6ow00oduxos9pb9zy30.json",
+      "questionSetId": "cmp6hn6ow00oduxos9pb9zy30",
+      "title": "১৯তম বিসিএস প্রশ্ন সমাধান | 19th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 48
+    },
+    {
+      "file": "cmp6hn70200pruxos3qsze28d.json",
+      "questionSetId": "cmp6hn70200pruxos3qsze28d",
+      "title": "২০তম বিসিএস প্রশ্ন সমাধান | 20th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 98
+    },
+    {
+      "file": "cmp6hn7bi00sjuxos2mjysh9b.json",
+      "questionSetId": "cmp6hn7bi00sjuxos2mjysh9b",
+      "title": "২১তম বিসিএস প্রশ্ন সমাধান | 21th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 90
+    },
+    {
+      "file": "cmp6hn7o500v3uxos7c2xptbt.json",
+      "questionSetId": "cmp6hn7o500v3uxos7c2xptbt",
+      "title": "২২তম বিসিএস প্রশ্ন সমাধান | 22th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 96
+    },
+    {
+      "file": "cmp6hn7zq00xtuxosz3b3ewg5.json",
+      "questionSetId": "cmp6hn7zq00xtuxosz3b3ewg5",
+      "title": "২৩তম বিসিএস প্রশ্ন সমাধান | 23th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 95
+    },
+    {
+      "file": "cmp6hn8ap010iuxosqbbqg8r0.json",
+      "questionSetId": "cmp6hn8ap010iuxosqbbqg8r0",
+      "title": "২৪তম বিসিএস প্রশ্ন সমাধান | 24th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 92
+    },
+    {
+      "file": "cmp6hn8mr0134uxosofp7ayy2.json",
+      "questionSetId": "cmp6hn8mr0134uxosofp7ayy2",
+      "title": "২৫তম বিসিএস প্রশ্ন সমাধান | 25th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 92
+    },
+    {
+      "file": "cmp6hn8xp015quxossqleo4of.json",
+      "questionSetId": "cmp6hn8xp015quxossqleo4of",
+      "title": "২৬তম বিসিএস প্রশ্ন সমাধান | 26th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 188
+    },
+    {
+      "file": "cmp6hn9d501b0uxos3mzvooyz.json",
+      "questionSetId": "cmp6hn9d501b0uxos3mzvooyz",
+      "title": "২৭তম বিসিএস প্রশ্ন সমাধান | 27th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 95
+    },
+    {
+      "file": "cmp6hn9n901dpuxosb1xqf2df.json",
+      "questionSetId": "cmp6hn9n901dpuxosb1xqf2df",
+      "title": "২৮তম বিসিএস প্রশ্ন সমাধান | 28th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 98
+    },
+    {
+      "file": "cmp6hn9xr01ghuxos2vwa3jat.json",
+      "questionSetId": "cmp6hn9xr01ghuxos2vwa3jat",
+      "title": "২৯তম বিসিএস প্রশ্ন সমাধান | 29th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 97
+    },
+    {
+      "file": "cmq94rdxl000pf701qqsagh8u.json",
+      "questionSetId": "cmq94rdxl000pf701qqsagh8u",
+      "title": "সমাজসেবা অফিসার নিয়োগ পরীক্ষার প্রশ্ন সমাধান-২০১০",
+      "subExamCategorySlug": "somajseba-job-solution",
+      "questionCount": 100
+    },
+    {
+      "file": "cmp6hna7x01j8uxos7cxu3zyk.json",
+      "questionSetId": "cmp6hna7x01j8uxos7cxu3zyk",
+      "title": "৩০তম বিসিএস প্রশ্ন সমাধান | 30th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 95
+    },
+    {
+      "file": "cmp7p7au50003uxpcgzkyylzs.json",
+      "questionSetId": "cmp7p7au50003uxpcgzkyylzs",
+      "title": "১০ত ম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (কলেজ পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 99
+    },
+    {
+      "file": "cmp7p7bcx002wuxpcpe7nngr9.json",
+      "questionSetId": "cmp7p7bcx002wuxpcpe7nngr9",
+      "title": "১০ত ম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায়-২)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 95
+    },
+    {
+      "file": "cmp7p7bop005luxpcozxghqo0.json",
+      "questionSetId": "cmp7p7bop005luxpcozxghqo0",
+      "title": "১০ত ম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 99
+    },
+    {
+      "file": "cmp6hnaik01lxuxoslks72cei.json",
+      "questionSetId": "cmp6hnaik01lxuxoslks72cei",
+      "title": "৩১তম বিসিএস প্রশ্ন সমাধান | 31th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 98
+    },
+    {
+      "file": "cmp7p7bz0008euxpcfet8dj0u.json",
+      "questionSetId": "cmp7p7bz0008euxpcfet8dj0u",
+      "title": "১১তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (কলেজ পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 97
+    },
+    {
+      "file": "cmp7p7cb500b5uxpcr5oqrjod.json",
+      "questionSetId": "cmp7p7cb500b5uxpcr5oqrjod",
+      "title": "১১তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায়-২)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 100
+    },
+    {
+      "file": "cmp7p7cnz00dzuxpcysdt60xo.json",
+      "questionSetId": "cmp7p7cnz00dzuxpcysdt60xo",
+      "title": "১১তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 98
+    },
+    {
+      "file": "cmp6hnatj01opuxos87vemwm1.json",
+      "questionSetId": "cmp6hnatj01opuxos87vemwm1",
+      "title": "৩২তম বিসিএস প্রশ্ন সমাধান | 32th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 100
+    },
+    {
+      "file": "cmp7p7d2h00gruxpco7siu6oa.json",
+      "questionSetId": "cmp7p7d2h00gruxpco7siu6oa",
+      "title": "১২তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (কলেজ পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 95
+    },
+    {
+      "file": "cmp7p7dcr00jguxpcz12dmt5a.json",
+      "questionSetId": "cmp7p7dcr00jguxpcz12dmt5a",
+      "title": "১২তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায় – ২)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 97
+    },
+    {
+      "file": "cmp7p7dmj00m7uxpcxixhaxri.json",
+      "questionSetId": "cmp7p7dmj00m7uxpcxixhaxri",
+      "title": "১২তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 97
+    },
+    {
+      "file": "cmp6hnb3u01rjuxosl7gaks37.json",
+      "questionSetId": "cmp6hnb3u01rjuxosl7gaks37",
+      "title": "৩৩তম বিসিএস প্রশ্ন সমাধান | 33th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 95
+    },
+    {
+      "file": "cmp7p7dx200oyuxpcjrl9tuky.json",
+      "questionSetId": "cmp7p7dx200oyuxpcjrl9tuky",
+      "title": "১৩তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (কলেজ পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 94
+    },
+    {
+      "file": "cmp7p7e9q00rmuxpczio0xgf6.json",
+      "questionSetId": "cmp7p7e9q00rmuxpczio0xgf6",
+      "title": "১৩তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায়-২)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 97
+    },
+    {
+      "file": "cmp7p7ej700uduxpcxpvcrxsr.json",
+      "questionSetId": "cmp7p7ej700uduxpcxpvcrxsr",
+      "title": "১৩তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 98
+    },
+    {
+      "file": "cmp6hnbdr01u8uxoshcg5u9i5.json",
+      "questionSetId": "cmp6hnbdr01u8uxoshcg5u9i5",
+      "title": "৩৪তম বিসিএস প্রশ্ন সমাধান | 34th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 95
+    },
+    {
+      "file": "cmp7p7esj00x5uxpcren3poej.json",
+      "questionSetId": "cmp7p7esj00x5uxpcren3poej",
+      "title": "১৪তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (কলেজ পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 96
+    },
+    {
+      "file": "cmp7p7f3h00zvuxpc39ypecpb.json",
+      "questionSetId": "cmp7p7f3h00zvuxpc39ypecpb",
+      "title": "১৪তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায় ২)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 98
+    },
+    {
+      "file": "cmp7p7fd9012nuxpcy3334wxp.json",
+      "questionSetId": "cmp7p7fd9012nuxpcy3334wxp",
+      "title": "১৪তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 99
+    },
+    {
+      "file": "cmp6hnbna01wxuxosumaxyxwm.json",
+      "questionSetId": "cmp6hnbna01wxuxosumaxyxwm",
+      "title": "৩৫তম বিসিএস প্রশ্ন সমাধান | 35th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 195
+    },
+    {
+      "file": "cmp7p7fmz015guxpc5zubwgph.json",
+      "questionSetId": "cmp7p7fmz015guxpc5zubwgph",
+      "title": "১৫তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (কলেজ পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 99
+    },
+    {
+      "file": "cmp7p7fyo0189uxpchhpjowng.json",
+      "questionSetId": "cmp7p7fyo0189uxpchhpjowng",
+      "title": "১৫তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায় -২)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 100
+    },
+    {
+      "file": "cmp7p7g7g01b3uxpc1qw1m9s8.json",
+      "questionSetId": "cmp7p7g7g01b3uxpc1qw1m9s8",
+      "title": "১৫তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 98
+    },
+    {
+      "file": "cmp6hnc1l022euxosqh62vgi8.json",
+      "questionSetId": "cmp6hnc1l022euxosqh62vgi8",
+      "title": "৩৬তম বিসিএস প্রশ্ন সমাধান | 36th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 197
+    },
+    {
+      "file": "cmp7p7ggu01dvuxpcbu0n5jyb.json",
+      "questionSetId": "cmp7p7ggu01dvuxpcbu0n5jyb",
+      "title": "১৬তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (কলেজ পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 96
+    },
+    {
+      "file": "cmp7p7gt401gluxpcusxfolej.json",
+      "questionSetId": "cmp7p7gt401gluxpcusxfolej",
+      "title": "১৭তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায় -২)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 99
+    },
+    {
+      "file": "cmp7p7h3j01jeuxpcte40k2z4.json",
+      "questionSetId": "cmp7p7h3j01jeuxpcte40k2z4",
+      "title": "১৬তম শিক্ষক নিবন্ধন প্রশ্ন সমাধান (স্কুল পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 96
+    },
+    {
+      "file": "cmp6hncgm027xuxosciglsbjp.json",
+      "questionSetId": "cmp6hncgm027xuxosciglsbjp",
+      "title": "৩৭তম বিসিএস প্রশ্ন সমাধান | 37th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 197
+    },
+    {
+      "file": "cmp6hncy602dguxoswlxa21ad.json",
+      "questionSetId": "cmp6hncy602dguxoswlxa21ad",
+      "title": "৩৮তম বিসিএস প্রশ্ন সমাধান | 38 BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 195
+    },
+    {
+      "file": "cmp6hndew02ixuxos4c6qnalg.json",
+      "questionSetId": "cmp6hndew02ixuxos4c6qnalg",
+      "title": "৩৯ তম বিসিএস প্রশ্ন সমাধান | 39th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 90
+    },
+    {
+      "file": "cmp6hndrn02lhuxoszpt5d1in.json",
+      "questionSetId": "cmp6hndrn02lhuxoszpt5d1in",
+      "title": "৪০তম বিসিএস প্রশ্ন সমাধান | 40 bcs Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 187
+    },
+    {
+      "file": "cmp6hnebd02qquxos91oe3wad.json",
+      "questionSetId": "cmp6hnebd02qquxos91oe3wad",
+      "title": "৪১তম বিসিএস প্রশ্ন সমাধান | 41th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 199
+    },
+    {
+      "file": "cmp6hnewq02wbuxoss52dmio0.json",
+      "questionSetId": "cmp6hnewq02wbuxoss52dmio0",
+      "title": "৪২তম বিসিএস প্রিলিমিনারি মূল প্রশ্নের সমাধান | 42 bcs question solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 97
+    },
+    {
+      "file": "cmq801kai000nf7019tv741i5.json",
+      "questionSetId": "cmq801kai000nf7019tv741i5",
+      "title": "সমাজসেবা অধিদপ্তরের ইউনিয়ন সমাজকর্মী নিয়োগ পরীক্ষা-২০২২",
+      "subExamCategorySlug": "somajseba-job-solution",
+      "questionCount": 70
+    },
+    {
+      "file": "cmp6hnf7302z2uxoshusn3v32.json",
+      "questionSetId": "cmp6hnf7302z2uxoshusn3v32",
+      "title": "৪৩তম বিসিএস প্রশ্ন সমাধান | 43 BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 195
+    },
+    {
+      "file": "cmp6hnfon034juxoseto3yb2x.json",
+      "questionSetId": "cmp6hnfon034juxoseto3yb2x",
+      "title": "৪৪তম বিসিএস প্রশ্নপত্র সমাধান | 44th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 199
+    },
+    {
+      "file": "cmp6hng6i03a4uxosl324gw8p.json",
+      "questionSetId": "cmp6hng6i03a4uxosl324gw8p",
+      "title": "৪৫তম বিসিএস প্রশ্নপত্র সমাধান | 45 bcs question solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 195
+    },
+    {
+      "file": "cmoci32r80003uxxkx4j3uelc.json",
+      "questionSetId": "cmoci32r80003uxxkx4j3uelc",
+      "title": "৫০তম বিসিএস প্রিলিমিনারি: প্রশ্ন সমাধান",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 200
+    },
+    {
+      "file": "cmodyukbk0001ux40qk9fnchv.json",
+      "questionSetId": "cmodyukbk0001ux40qk9fnchv",
+      "title": "১৮তম শিক্ষক নিয়োগ পরীক্ষার প্রশ্ন সমাধান (স্কুল পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 100
+    },
+    {
+      "file": "cmof25awe006ebq018py16xon.json",
+      "questionSetId": "cmof25awe006ebq018py16xon",
+      "title": "৪৯তম বিসিএস (বিশেষ): প্রশ্ন সমাধান",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 100
+    },
+    {
+      "file": "cmof3kzi8006gbq01rm112tkp.json",
+      "questionSetId": "cmof3kzi8006gbq01rm112tkp",
+      "title": "১৮তম শিক্ষক নিয়োগ পরীক্ষার প্রশ্ন সমাধান (স্কুল ২ পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 100
+    },
+    {
+      "file": "cmogkyldf006ybq01a5xcve0z.json",
+      "questionSetId": "cmogkyldf006ybq01a5xcve0z",
+      "title": "১৮তম শিক্ষক নিয়োগ পরীক্ষার প্রশ্ন সমাধান (কলেজ পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 100
+    },
+    {
+      "file": "cmohgd4qj00a8bq01yj62zk1g.json",
+      "questionSetId": "cmohgd4qj00a8bq01yj62zk1g",
+      "title": "১৭তম শিক্ষক নিয়োগ পরীক্ষার প্রশ্ন সমাধান (স্কুল পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 100
+    },
+    {
+      "file": "cmolr9pp30001c901k9oju527.json",
+      "questionSetId": "cmolr9pp30001c901k9oju527",
+      "title": "১৭তম শিক্ষক নিয়োগ পরীক্ষার প্রশ্ন সমাধান (স্কুল ২ পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 100
+    },
+    {
+      "file": "cmomxyqda0001uxj4gs0ujoc6.json",
+      "questionSetId": "cmomxyqda0001uxj4gs0ujoc6",
+      "title": "১৭তম শিক্ষক নিয়োগ পরীক্ষার প্রশ্ন সমাধান (কলেজ পর্যায়)",
+      "subExamCategorySlug": "ntrca-job-solution",
+      "questionCount": 99
+    },
+    {
+      "file": "cmp6hngpb03fluxosi56ataz3.json",
+      "questionSetId": "cmp6hngpb03fluxosi56ataz3",
+      "title": "৪৬তম বিসিএস প্রশ্ন সমাধান | 46th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 193
+    },
+    {
+      "file": "cmqb499jk000wf70184pc1ofi.json",
+      "questionSetId": "cmqb499jk000wf70184pc1ofi",
+      "title": "Daily GK Day 1 of 365",
+      "subExamCategorySlug": "daily-20-gk",
+      "questionCount": 20
+    },
+    {
+      "file": "cmqbt2ggc000yf70186xxhj4z.json",
+      "questionSetId": "cmqbt2ggc000yf70186xxhj4z",
+      "title": "Daily GK Day 2 of 365",
+      "subExamCategorySlug": "daily-20-gk",
+      "questionCount": 20
+    },
+    {
+      "file": "cmqc4cbx90003uxugr9liwpmg.json",
+      "questionSetId": "cmqc4cbx90003uxugr9liwpmg",
+      "title": "আজকের অনুষ্ঠিত জুডিশিয়াল পরিক্ষা | জারিকারক",
+      "subExamCategorySlug": "recent-job-solution-2026",
+      "questionCount": 49
+    },
+    {
+      "file": "cmqd8fev50026f701veorb0d5.json",
+      "questionSetId": "cmqd8fev50026f701veorb0d5",
+      "title": "Daily GK Day 3 of 365",
+      "subExamCategorySlug": "daily-20-gk",
+      "questionCount": 20
+    },
+    {
+      "file": "cmqewz60z002af701ogsdekdz.json",
+      "questionSetId": "cmqewz60z002af701ogsdekdz",
+      "title": "Daily GK Day 4 of 365 ",
+      "subExamCategorySlug": "daily-20-gk",
+      "questionCount": 20
+    },
+    {
+      "file": "cmsafn6by0005uxs4ldj9vp1a.json",
+      "questionSetId": "cmsafn6by0005uxs4ldj9vp1a",
+      "title": "Test Model 5",
+      "subExamCategorySlug": "daily-20-gk",
+      "questionCount": 1
+    },
+    {
+      "file": "cmse876pw0007uxtgh1jsa815.json",
+      "questionSetId": "cmse876pw0007uxtgh1jsa815",
+      "title": "দিন ১: ফ্রি পরীক্ষা- বাক্যের শ্রেণিবিভাগ",
+      "subExamCategorySlug": "19th-ntrca-preparation",
+      "questionCount": 20
+    },
+    {
+      "file": "cmsg1l0z70019uxsoqmd9qc25.json",
+      "questionSetId": "cmsg1l0z70019uxsoqmd9qc25",
+      "title": "দিন ২:  কর্মধারয় সমাস (বাংলা ব্যাকারণ)",
+      "subExamCategorySlug": "19th-ntrca-preparation",
+      "questionCount": 5
+    },
+    {
+      "file": "cmsgy0n500003uxzc1e8vvyvk.json",
+      "questionSetId": "cmsgy0n500003uxzc1e8vvyvk",
+      "title": "দিন ৩: রবিন্দ্রনাথ ঠাকুর ",
+      "subExamCategorySlug": "19th-ntrca-preparation",
+      "questionCount": 20
+    },
+    {
+      "file": "cmsmz86b1001tuxh43wh1v4gi.json",
+      "questionSetId": "cmsmz86b1001tuxh43wh1v4gi",
+      "title": "বাগধারা, MS Word বেসিক, Article",
+      "subExamCategorySlug": "computer-operator",
+      "questionCount": 0
+    },
+    {
+      "file": "cmsmzaqvz001vuxh4teyib26x.json",
+      "questionSetId": "cmsmzaqvz001vuxh4teyib26x",
+      "title": "ভাষা ও বাংলা ভাষা, বাংলা ব্যাকরণের প্রাথমিক ধারণা",
+      "subExamCategorySlug": "bangla",
+      "questionCount": 25
+    },
+    {
+      "file": "cmp6hnhdu03l0uxos5xfntxov.json",
+      "questionSetId": "cmp6hnhdu03l0uxos5xfntxov",
+      "title": "৪৭তম বিসিএস প্রশ্ন সমাধান | 47th BCS Question Solution",
+      "subExamCategorySlug": "bcs-job-solution",
+      "questionCount": 197
+    }
+  ]
+}

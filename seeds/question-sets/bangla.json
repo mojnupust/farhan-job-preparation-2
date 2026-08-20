@@ -1,0 +1,28 @@
+{
+  "kind": "question-sets",
+  "exportedAt": "2026-08-20T04:42:37.073Z",
+  "source": {
+    "subExamCategoryId": "cmsmyqkv80001uxh4s30dzrcy",
+    "name": "বাংলা",
+    "slug": "bangla",
+    "examCategoryName": "শিক্ষক নিয়োগ ও নিবন্ধন",
+    "examCategorySlug": "teacher-recruitment"
+  },
+  "sets": [
+    {
+      "sourceId": "cmsmzaqvz001vuxh4teyib26x",
+      "title": "ভাষা ও বাংলা ভাষা, বাংলা ব্যাকরণের প্রাথমিক ধারণা",
+      "date": "2026-08-10",
+      "totalMarks": 25,
+      "duration": 15,
+      "subject": "বাংলা",
+      "topics": "ভাষা ও বাংলা ভাষা, বাংলা ব্যাকরণের সংজ্ঞা ও গুরুত্ব",
+      "sourceMaterial": "NCTB নবম-দশম শ্রেণি বাংলা ভাষার ব্যাকরণ বোর্ড বই, বাংলা একাডেমি প্রমিত বাংলা ভাষার ব্যাকরণ",
+      "markPerQuestion": 1,
+      "negativeMark": 0.25,
+      "isFree": true,
+      "isLive": true,
+      "isActive": true
+    }
+  ]
+}

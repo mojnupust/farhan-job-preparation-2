@@ -1,0 +1,58 @@
+{
+  "kind": "question-sets",
+  "exportedAt": "2026-08-20T04:42:37.061Z",
+  "source": {
+    "subExamCategoryId": "cmnv745hc000huxikxavri5d3",
+    "name": "19th (NTRCA) বেসরকারি শিক্ষক নিয়োগ প্রস্তুতি",
+    "slug": "19th-ntrca-preparation",
+    "examCategoryName": "শিক্ষক নিয়োগ ও নিবন্ধন",
+    "examCategorySlug": "teacher-recruitment"
+  },
+  "sets": [
+    {
+      "sourceId": "cmse876pw0007uxtgh1jsa815",
+      "title": "দিন ১: ফ্রি পরীক্ষা- বাক্যের শ্রেণিবিভাগ",
+      "date": "2026-08-04",
+      "totalMarks": 20,
+      "duration": 10,
+      "subject": "বাংলা",
+      "topics": "বাক্য, বাক্যের গঠন, বাক্যের শ্রেণিবিভাগ",
+      "sourceMaterial": "NCTB নবম-দশম শ্রেণি বাংলা ভাষার ব্যাকারণ বোর্ড বই",
+      "markPerQuestion": 1,
+      "negativeMark": 0.25,
+      "isFree": false,
+      "isLive": false,
+      "isActive": false
+    },
+    {
+      "sourceId": "cmsg1l0z70019uxsoqmd9qc25",
+      "title": "দিন ২:  কর্মধারয় সমাস (বাংলা ব্যাকারণ)",
+      "date": "2026-08-05",
+      "totalMarks": 5,
+      "duration": 10,
+      "subject": "বাংলা",
+      "topics": "সমাস",
+      "sourceMaterial": "NCTB নবম-দশম শ্রেণি বাংলা ভাষার ব্যাকারণ বোর্ড বই",
+      "markPerQuestion": 1,
+      "negativeMark": 0.25,
+      "isFree": false,
+      "isLive": false,
+      "isActive": false
+    },
+    {
+      "sourceId": "cmsgy0n500003uxzc1e8vvyvk",
+      "title": "দিন ৩: রবিন্দ্রনাথ ঠাকুর ",
+      "date": "2026-08-06",
+      "totalMarks": 20,
+      "duration": 10,
+      "subject": "বাংলা",
+      "topics": "সাহিত্যিক, লেখক, কবি",
+      "sourceMaterial": "NCTB নবম-দশম শ্রেণি বাংলা সাহিত্য",
+      "markPerQuestion": 1,
+      "negativeMark": 0.25,
+      "isFree": false,
+      "isLive": false,
+      "isActive": false
+    }
+  ]
+}

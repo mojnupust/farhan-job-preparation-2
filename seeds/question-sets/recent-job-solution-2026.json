@@ -1,0 +1,28 @@
+{
+  "kind": "question-sets",
+  "exportedAt": "2026-08-20T04:42:37.057Z",
+  "source": {
+    "subExamCategoryId": "cmqc49fnu0001uxug0zvgs0c1",
+    "name": "Recent Job Solution 2026",
+    "slug": "recent-job-solution-2026",
+    "examCategoryName": "১১ থেকে ২০তম গ্রেডের সরকারি চাকরি প্রস্তুতি",
+    "examCategorySlug": "11-20-grade-job-preparation"
+  },
+  "sets": [
+    {
+      "sourceId": "cmqc4cbx90003uxugr9liwpmg",
+      "title": "আজকের অনুষ্ঠিত জুডিশিয়াল পরিক্ষা | জারিকারক",
+      "date": "2026-06-13",
+      "totalMarks": 50,
+      "duration": 30,
+      "subject": "বাংলা,  ইংরেজি, গণিত, সাধারণ জ্ঞান",
+      "topics": "",
+      "sourceMaterial": "",
+      "markPerQuestion": 1,
+      "negativeMark": 0.25,
+      "isFree": false,
+      "isLive": false,
+      "isActive": true
+    }
+  ]
+}
