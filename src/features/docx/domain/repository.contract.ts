@@ -37,6 +37,8 @@ export interface DocxRepository {
   findStyleConfigByHash(hash: string): Promise<DocxStyleConfigDto | null>;
   findStyleConfigById(id: string): Promise<DocxStyleConfigDto | null>;
   createStyleConfig(input: CreateDocxStyleConfigInput): Promise<DocxStyleConfigDto>;
+  /** Returns (creating if needed) the shared user id used to attribute anonymous public requests. */
+  resolvePublicCreatorId(): Promise<string>;
 
   findDocumentBySetsAndStyle(
     setsHash: string,

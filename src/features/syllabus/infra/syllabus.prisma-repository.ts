@@ -47,8 +47,21 @@ export class SyllabusPrismaRepository implements SyllabusRepository {
   }
 
   async findBySlug(slug: string): Promise<SyllabusDto | null> {
-    const syllabus = await this.prisma.syllabus.findUnique({ where: { slug } });
-    return syllabus ? syllabusMapper.toDto(syllabus) : null;
+    const syllabus = await this.prisma.syllabus.findUnique({
+      where: { slug },
+      include: {
+        subExamCategory: {
+          include: { examCategory: { select: { slug: true } } },
+        },
+      },
+    });
+    if (!syllabus) return null;
+    return {
+      ...syllabusMapper.toDto(syllabus),
+      subExamCategoryName: syllabus.subExamCategory.name,
+      subExamCategorySlug: syllabus.subExamCategory.slug,
+      examCategorySlug: syllabus.subExamCategory.examCategory.slug,
+    } as SyllabusDto;
   }
 
   async create(input: CreateSyllabusInput): Promise<SyllabusDto> {

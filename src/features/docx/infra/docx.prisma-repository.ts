@@ -1,5 +1,11 @@
 import type { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
+import { randomUUID } from 'node:crypto';
 
+import {
+  PUBLIC_DOCX_CREATOR_MOBILE,
+  PUBLIC_DOCX_CREATOR_NAME,
+} from '../../../shared/constants/docx.constants.js';
 import { docxDocumentMapper, docxJobMapper, docxStyleConfigMapper } from '../domain/mapper.js';
 import type {
   CreateDocxDocumentInput,
@@ -18,7 +24,46 @@ import type {
 const ACTIVE_JOB_STATUSES: DocxJobStatusValue[] = ['QUEUED', 'PROCESSING'];
 
 export class DocxPrismaRepository implements DocxRepository {
+  private publicCreatorId: string | null = null;
+
   constructor(private readonly prisma: PrismaClient) {}
+
+  async resolvePublicCreatorId(): Promise<string> {
+    if (this.publicCreatorId) return this.publicCreatorId;
+
+    const existing = await this.prisma.user.findUnique({
+      where: { mobile: PUBLIC_DOCX_CREATOR_MOBILE },
+      select: { id: true },
+    });
+    if (existing) {
+      this.publicCreatorId = existing.id;
+      return existing.id;
+    }
+
+    const password = await bcrypt.hash(randomUUID(), 10);
+    try {
+      const created = await this.prisma.user.create({
+        data: {
+          mobile: PUBLIC_DOCX_CREATOR_MOBILE,
+          password,
+          name: PUBLIC_DOCX_CREATOR_NAME,
+          role: 'USER',
+          isActive: false, // login-disabled placeholder, not a real account
+        },
+        select: { id: true },
+      });
+      this.publicCreatorId = created.id;
+      return created.id;
+    } catch {
+      // Lost a race to create the placeholder — another request created it first.
+      const raceWinner = await this.prisma.user.findUniqueOrThrow({
+        where: { mobile: PUBLIC_DOCX_CREATOR_MOBILE },
+        select: { id: true },
+      });
+      this.publicCreatorId = raceWinner.id;
+      return raceWinner.id;
+    }
+  }
 
   async countQuestionSets(questionSetIds: string[]): Promise<number> {
     const count = await this.prisma.questionSet.count({

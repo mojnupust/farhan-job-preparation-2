@@ -3,3 +3,8 @@ export const DOCX_JOB_STALE_MS = 5 * 60 * 1000;
 
 export const DOCX_JOB_STALE_MESSAGE =
   'Docx generation timed out. Ensure Redis and MinIO are running (docker compose up -d redis minio) and the worker is active.';
+
+// The /docs feature is public — anonymous requests are attributed to this shared,
+// login-disabled placeholder account instead of a real user.
+export const PUBLIC_DOCX_CREATOR_MOBILE = '00000000000';
+export const PUBLIC_DOCX_CREATOR_NAME = 'Public Docx Guest';
