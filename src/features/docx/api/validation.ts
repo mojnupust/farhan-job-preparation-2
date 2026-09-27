@@ -7,18 +7,17 @@ export const docxStyleConfigSchema = z.object({
   fontBn: z.string().min(1).max(100).default('Kalpurush'),
   brandName: z.string().min(1).max(200).default('Farhan MCQ'),
   brandSubtitle: z.string().min(1).max(200).default('farhanmcq.com'),
-  footerText: z
-    .string()
-    .min(1)
-    .max(2000)
-    .default('নিয়মিত অনুশীলন করতে ফলো করুন — Farhan MCQ'),
+  footerText: z.string().min(1).max(2000).default('নিয়মিত অনুশীলন করতে ফলো করুন — Farhan MCQ'),
   showExplanation: z.boolean().default(false),
   explanationMaxChars: z.number().int().min(20).max(2000).default(400),
-  siteBaseUrl: z.string().url().default('https://farhanmcq.com'),
+  siteBaseUrl: z.string().url().default('https://www.farhanmcq.com'),
 });
 
 export const generateDocxSchema = z.object({
-  questionSetIds: z.array(z.string().min(1)).min(1, 'Select at least one question set'),
+  questionSetIds: z
+    .array(z.string().min(1))
+    .min(1, 'Select at least one question set')
+    .max(30, 'Select at most 30 question sets at a time'),
   styleConfig: docxStyleConfigSchema,
 });
 

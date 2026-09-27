@@ -181,6 +181,12 @@ function metaLine(theme: ReturnType<typeof buildTheme>, meta: DocxSetInput['meta
   });
 }
 
+function mcqPageUrl(siteBaseUrl: string, slug: string | null | undefined): string {
+  const origin = siteBaseUrl.replace(/\/+$/, '');
+  if (!slug) return origin;
+  return `${origin}/mcq/${slug}`;
+}
+
 function explanationBlock(
   theme: ReturnType<typeof buildTheme>,
   question: QuestionForDocx,
@@ -189,34 +195,36 @@ function explanationBlock(
   if (!opts.showExplanation) return [];
 
   const text = (question.explanation || '').trim();
-  if (!text) return [];
-
   const truncated = text.length > opts.explanationMaxChars;
   const shown = truncated ? text.slice(0, opts.explanationMaxChars).trimEnd() : text;
+  const url = mcqPageUrl(opts.siteBaseUrl, question.slug);
 
-  const paragraphs = [
-    new Paragraph({
-      spacing: { before: 40, after: truncated ? 20 : 140 },
-      children: [
-        new TextRun({
-          text: 'ব্যাখ্যা: ',
-          bold: true,
-          color: theme.colors.explanationLabel ?? undefined,
-          font: theme.fontBn,
-          size: theme.sizes.explanationLabel,
-        }),
-        new TextRun({
-          text: truncated ? `${shown} ...` : shown,
-          color: theme.colors.explanationText ?? undefined,
-          font: theme.fontBn,
-          size: theme.sizes.explanationText,
-        }),
-      ],
-    }),
-  ];
+    const paragraphs: Paragraph[] = [];
 
-  if (truncated) {
-    const url = question.slug ? `${opts.siteBaseUrl}/${question.slug}` : opts.siteBaseUrl;
+  if (text) {
+    paragraphs.push(
+      new Paragraph({
+        spacing: { before: 40, after: truncated || question.slug ? 20 : 140 },
+        children: [
+          new TextRun({
+            text: 'ব্যাখ্যা: ',
+            bold: true,
+            color: theme.colors.explanationLabel ?? undefined,
+            font: theme.fontBn,
+            size: theme.sizes.explanationLabel,
+          }),
+          new TextRun({
+            text: truncated ? `${shown} ...` : shown,
+            color: theme.colors.explanationText ?? undefined,
+            font: theme.fontBn,
+            size: theme.sizes.explanationText,
+          }),
+        ],
+      }),
+    );
+  }
+
+  if (question.slug) {
     paragraphs.push(
       new Paragraph({
         spacing: { after: 140 },
@@ -225,7 +233,9 @@ function explanationBlock(
             link: url,
             children: [
               new TextRun({
-                text: 'বিস্তারিত পড়ুন Farhan MCQ তে',
+                text: truncated
+                  ? 'বিস্তারিত ব্যাখ্যা পড়ুন — Farhan MCQ'
+                  : 'অনলাইনে পড়ুন — Farhan MCQ',
                 bold: true,
                 underline: {
                   type: UnderlineType.SINGLE,
@@ -365,7 +375,7 @@ export function buildDocument(sets: DocxSetInput[], opts: DocxBuildOptions): Doc
   const explanationOpts = {
     showExplanation: Boolean(opts.showExplanation),
     explanationMaxChars: opts.explanationMaxChars ?? 400,
-    siteBaseUrl: opts.siteBaseUrl ?? 'https://farhanmcq.com',
+    siteBaseUrl: opts.siteBaseUrl ?? 'https://www.farhanmcq.com',
   };
 
   const body: Paragraph[] = [];

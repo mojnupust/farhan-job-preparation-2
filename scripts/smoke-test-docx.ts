@@ -14,7 +14,7 @@ const STYLE = {
   footerText: 'নিয়মিত অনুশীলন করতে ফলো করুন — Farhan MCQ',
   showExplanation: false,
   explanationMaxChars: 400,
-  siteBaseUrl: 'https://farhanmcq.com',
+  siteBaseUrl: 'https://www.farhanmcq.com',
 };
 
 const prisma = new PrismaClient();

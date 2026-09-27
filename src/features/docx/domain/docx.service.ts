@@ -15,9 +15,9 @@ import type { DocxRepository } from './repository.contract.js';
 import { hashDocxStyleConfig, hashQuestionSetIds } from './style-hash.js';
 import type {
   DocxDocumentDto,
+  DocxExportResult,
   DocxGenerationJobDto,
   DocxJobStatusResult,
-  DocxExportResult,
   DocxSetInput,
   GenerateDocxInput,
   GenerateDocxResult,
@@ -30,7 +30,7 @@ export class DocxService {
     private readonly storage: DocxStorageService,
   ) {}
 
-  async generate(userId: string, input: GenerateDocxInput): Promise<GenerateDocxResult> {
+  async generate(userId: string | null, input: GenerateDocxInput): Promise<GenerateDocxResult> {
     const questionSetIds = [...new Set(input.questionSetIds)];
     if (questionSetIds.length === 0) {
       throw new BadRequestError('Select at least one question set');
@@ -48,13 +48,10 @@ export class DocxService {
       (await this.repository.createStyleConfig({
         ...input.styleConfig,
         configHash,
-        createdBy: userId,
+        createdBy: userId ?? (await this.repository.resolvePublicCreatorId()),
       }));
 
-    const existingDoc = await this.repository.findDocumentBySetsAndStyle(
-      setsHash,
-      styleConfig.id,
-    );
+    const existingDoc = await this.repository.findDocumentBySetsAndStyle(setsHash, styleConfig.id);
     if (existingDoc) {
       return { cached: true, styleConfigId: styleConfig.id, document: existingDoc };
     }

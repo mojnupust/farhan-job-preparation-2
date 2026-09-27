@@ -8,7 +8,7 @@ export class DocxController {
   constructor(private readonly service: DocxService) {}
 
   async generate(req: Request, res: Response): Promise<void> {
-    const userId = req.userId!;
+    const userId = req.userId ?? null;
     const input = req.body as GenerateDocxInput;
     const result = await this.service.generate(userId, input);
     res.status(HttpStatus.OK).json({ data: result });
