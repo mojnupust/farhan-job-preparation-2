@@ -8,6 +8,7 @@ export const docxStyleConfigSchema = z.object({
   brandName: z.string().min(1).max(200).default('Farhan MCQ'),
   brandSubtitle: z.string().min(1).max(200).default('farhanmcq.com'),
   footerText: z.string().min(1).max(2000).default('নিয়মিত অনুশীলন করতে ফলো করুন — Farhan MCQ'),
+  showAnswer: z.boolean().default(true),
   showExplanation: z.boolean().default(false),
   explanationMaxChars: z.number().int().min(20).max(2000).default(400),
   siteBaseUrl: z.string().url().default('https://www.farhanmcq.com'),

@@ -120,6 +120,7 @@ export class DocxPrismaRepository implements DocxRepository {
         brandName: input.brandName,
         brandSubtitle: input.brandSubtitle,
         footerText: input.footerText,
+        showAnswer: input.showAnswer,
         showExplanation: input.showExplanation,
         explanationMaxChars: input.explanationMaxChars,
         siteBaseUrl: input.siteBaseUrl,

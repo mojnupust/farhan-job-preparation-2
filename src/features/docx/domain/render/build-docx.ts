@@ -260,6 +260,7 @@ function questionBlock(
   question: QuestionForDocx,
   index: number,
   contentWidth: number,
+  showAnswer: boolean,
   explanationOpts: Pick<DocxBuildOptions, 'showExplanation' | 'explanationMaxChars' | 'siteBaseUrl'>,
 ) {
   const accent = theme.questionAccents[index % theme.questionAccents.length]!;
@@ -317,14 +318,16 @@ function questionBlock(
     });
 
   const badgeRightEdge = contentWidth - 140;
-  const badgeRun = new TextRun({
-    text: ` উত্তর: ${letter}`,
-    bold: true,
-    color: theme.colors.answerBadgeText ?? undefined,
-    font: theme.fontBn,
-    size: theme.sizes.answerBadge,
-    ...shadingIfAny(theme.colors.answerBadgeBg),
-  });
+  const badgeRun = showAnswer
+    ? new TextRun({
+        text: ` উত্তর: ${letter}`,
+        bold: true,
+        color: theme.colors.answerBadgeText ?? undefined,
+        font: theme.fontBn,
+        size: theme.sizes.answerBadge,
+        ...shadingIfAny(theme.colors.answerBadgeBg),
+      })
+    : null;
 
   const paragraphs: Paragraph[] = [];
 
@@ -336,9 +339,11 @@ function questionBlock(
           { type: TabStopType.LEFT, position: Math.round(contentWidth * 0.24) },
           { type: TabStopType.LEFT, position: Math.round(contentWidth * 0.48) },
           { type: TabStopType.LEFT, position: Math.round(contentWidth * 0.72) },
-          { type: TabStopType.RIGHT, position: badgeRightEdge },
+          ...(badgeRun ? [{ type: TabStopType.RIGHT, position: badgeRightEdge }] : []),
         ],
-        children: [...optionRuns(options), new TextRun({ text: '\t' }), badgeRun],
+        children: badgeRun
+          ? [...optionRuns(options), new TextRun({ text: '\t' }), badgeRun]
+          : optionRuns(options),
       }),
     );
   } else {
@@ -352,9 +357,11 @@ function questionBlock(
         spacing: { after: 120 },
         tabStops: [
           { type: TabStopType.LEFT, position: Math.round(contentWidth * 0.5) },
-          { type: TabStopType.RIGHT, position: badgeRightEdge },
+          ...(badgeRun ? [{ type: TabStopType.RIGHT, position: badgeRightEdge }] : []),
         ],
-        children: [...optionRuns(options.slice(2, 4)), new TextRun({ text: '\t' }), badgeRun],
+        children: badgeRun
+          ? [...optionRuns(options.slice(2, 4)), new TextRun({ text: '\t' }), badgeRun]
+          : optionRuns(options.slice(2, 4)),
       }),
     );
   }
@@ -391,7 +398,9 @@ export function buildDocument(sets: DocxSetInput[], opts: DocxBuildOptions): Doc
     if (meta) body.push(meta);
 
     set.questions.forEach((q, i) => {
-      body.push(...questionBlock(theme, q, i, contentWidth, explanationOpts));
+      body.push(
+        ...questionBlock(theme, q, i, contentWidth, Boolean(opts.showAnswer), explanationOpts),
+      );
     });
   });
 

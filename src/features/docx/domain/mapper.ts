@@ -17,6 +17,7 @@ export const docxStyleConfigMapper = {
       brandName: entity.brandName,
       brandSubtitle: entity.brandSubtitle,
       footerText: entity.footerText,
+      showAnswer: entity.showAnswer,
       showExplanation: entity.showExplanation,
       explanationMaxChars: entity.explanationMaxChars,
       siteBaseUrl: entity.siteBaseUrl,

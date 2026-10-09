@@ -11,6 +11,7 @@ export function hashDocxStyleConfig(styleConfig: DocxStyleConfigFields): string 
     brandName: styleConfig.brandName,
     brandSubtitle: styleConfig.brandSubtitle,
     footerText: styleConfig.footerText,
+    showAnswer: styleConfig.showAnswer,
     showExplanation: styleConfig.showExplanation,
     explanationMaxChars: styleConfig.explanationMaxChars,
     siteBaseUrl: styleConfig.siteBaseUrl,

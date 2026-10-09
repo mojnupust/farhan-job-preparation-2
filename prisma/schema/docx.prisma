@@ -26,6 +26,7 @@ model DocxStyleConfig {
   brandName           String            @default("Farhan MCQ") @map("brand_name") @db.VarChar(200)
   brandSubtitle       String            @default("farhanmcq.com") @map("brand_subtitle") @db.VarChar(200)
   footerText          String            @default("নিয়মিত অনুশীলন করতে ফলো করুন — Farhan MCQ") @map("footer_text") @db.Text
+  showAnswer          Boolean           @default(true) @map("show_answer")
   showExplanation     Boolean           @default(false) @map("show_explanation")
   explanationMaxChars Int               @default(400) @map("explanation_max_chars")
   siteBaseUrl         String            @default("https://farhanmcq.com") @map("site_base_url") @db.VarChar(500)
