@@ -1,0 +1,5 @@
+Make  a  new seed file analysis the images questions -> exact format the reference seed format, but no need bengali number include in question_text. 
+
+And in explanation last line never need to add উৎস like that উৎস: পৃষ্ঠা: ৮ (অগ্রদূত Competitive English; ৩য় সংস্করণ) -> never should add this line rather than explain should your own train data, google search is really good help. 
+
+@prisma/seed-computer-questions-sets.ts:1-1637 

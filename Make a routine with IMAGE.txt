@@ -1,0 +1,15 @@
+Make a routine analysis our farhan mcq scema. 
+
+
+
+total 9 day; cover all gk topic. total 9 day; cover all english topic. both starting 3 september.  every routine mark 30, time 20 m.  give all the routine in a .csv file. 
+
+
+
+under this two sub_exam_categories. 
+
+
+
+cmt8bdav3003yds01i0rm1eme (English) 
+
+cmtjpennt001gah01ic1sbzpn (GK) 

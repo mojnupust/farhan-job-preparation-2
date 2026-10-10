@@ -98,3 +98,64 @@
 {"ts":"2026-06-07T12:42:34.345Z","type":"FINAL_FAILURE","id":"cmp7p7ayh001uuxpckid9rkqp","attempt":1,"error":"Error: Explanation missing \"সঠিক উত্তর\" header — format not followed."}
 {"ts":"2026-06-07T16:21:48.611Z","type":"NETWORK_ERROR","keyTail":"dq1S65","attempt":1,"error":"TypeError: fetch failed"}
 {"ts":"2026-06-07T16:22:09.352Z","type":"FATAL_CRASH","error":"PrismaClientKnownRequestError: \nInvalid `prisma.question.update()` invocation in\nD:\\products\\farhan-mcq\\backend\\prisma\\backfill-explanation-mistral-ai.ts:443:31\n\n  440 const explanation = await processQuestion(q, pool);\n  441 \n  442 if (explanation) {\n→ 443   await prisma.question.update(\nTimed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)"}
+{"ts":"2026-10-09T16:05:47.808Z","type":"AUTH_ERROR","keyTail":"ey-one","status":401}
+{"ts":"2026-10-09T16:05:47.809Z","type":"FINAL_FAILURE","id":"cmt76nejn00kvux0s24fv6qd6","attempt":1,"error":"Error: AUTH_ERROR_401: Key …ey-one rejected."}
+{"ts":"2026-10-09T16:05:48.071Z","type":"AUTH_ERROR","keyTail":"ey-two","status":401}
+{"ts":"2026-10-09T16:05:48.072Z","type":"FINAL_FAILURE","id":"cmt76ngv600nbux0sm246wbt6","attempt":1,"error":"Error: AUTH_ERROR_401: Key …ey-two rejected."}
+{"ts":"2026-10-09T16:05:48.308Z","type":"AUTH_ERROR","keyTail":"-three","status":401}
+{"ts":"2026-10-09T16:05:48.310Z","type":"FINAL_FAILURE","id":"cmt76qgb90488ux0syg1zy8p2","attempt":1,"error":"Error: AUTH_ERROR_401: Key …-three rejected."}
+{"ts":"2026-10-10T04:35:38.780Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:39.159Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:39.421Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:41.412Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:41.666Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:41.668Z","type":"FINAL_FAILURE","id":"cmt76nejn00kvux0s24fv6qd6","attempt":5,"error":"Error: RATE_LIMIT_429"}
+{"ts":"2026-10-10T04:35:42.023Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:44.178Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:44.482Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:44.916Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:46.711Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:46.714Z","type":"FINAL_FAILURE","id":"cmt76ngv600nbux0sm246wbt6","attempt":5,"error":"Error: RATE_LIMIT_429"}
+{"ts":"2026-10-10T04:35:47.148Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:47.452Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:49.255Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:49.603Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:49.911Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:49.914Z","type":"FINAL_FAILURE","id":"cmt76qgb90488ux0syg1zy8p2","attempt":5,"error":"Error: RATE_LIMIT_429"}
+{"ts":"2026-10-10T04:35:51.717Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:52.063Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:52.371Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:55.547Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:55.850Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:35:55.852Z","type":"FINAL_FAILURE","id":"cmtiv6g2z0013uxkwdkn1xrxp","attempt":5,"error":"Error: RATE_LIMIT_429"}
+{"ts":"2026-10-10T04:37:00.977Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:05.623Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:05.996Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:06.267Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:08.094Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:08.096Z","type":"FINAL_FAILURE","id":"cmtiv6g2z000tuxkwkonlm9kj","attempt":5,"error":"Error: RATE_LIMIT_429"}
+{"ts":"2026-10-10T04:37:08.423Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:08.759Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:10.700Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:11.010Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:14.030Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:14.035Z","type":"FINAL_FAILURE","id":"cmtiv6g2z000nuxkwcq8gina5","attempt":5,"error":"Error: RATE_LIMIT_429"}
+{"ts":"2026-10-10T04:37:14.390Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:14.698Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:17.053Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:17.362Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:17.667Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:17.669Z","type":"FINAL_FAILURE","id":"cmtiv6g30001fuxkwqpx2mrxw","attempt":5,"error":"Error: RATE_LIMIT_429"}
+{"ts":"2026-10-10T04:37:19.611Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:19.919Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:20.944Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:22.110Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:22.425Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:22.427Z","type":"FINAL_FAILURE","id":"cmtiv6g310028uxkwnx42dccd","attempt":5,"error":"Error: RATE_LIMIT_429"}
+{"ts":"2026-10-10T04:37:23.420Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:24.628Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:24.935Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:25.896Z","type":"RATE_LIMIT_429","keyTail":"0YTSe7","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:27.188Z","type":"RATE_LIMIT_429","keyTail":"3ReWRc","banMs":2000,"attempt":1}
+{"ts":"2026-10-10T04:37:27.189Z","type":"FINAL_FAILURE","id":"cmtiv6g2y000kuxkw9akte3bt","attempt":5,"error":"Error: RATE_LIMIT_429"}
+{"ts":"2026-10-10T04:37:27.496Z","type":"RATE_LIMIT_429","keyTail":"2rFOPl","banMs":2000,"attempt":1}

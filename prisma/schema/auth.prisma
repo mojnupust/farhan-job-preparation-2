@@ -25,6 +25,11 @@ model User {
   loginAttempts       LoginAttempt[]
   slideStyleConfigs   SlideStyleConfig[]
   docxStyleConfigs    DocxStyleConfig[]
+  walletAccount       WalletAccount?
+  walletLedgerEntries WalletLedgerEntry[]
+  dailyStreak         DailyStreak?
+  streakCheckIns      StreakCheckIn[]
+  withdrawalRequests  WithdrawalRequest[]
   videosCreated       Video[]          @relation("VideoCreator")
   videoLikes          VideoLike[]
   videoComments       VideoComment[]

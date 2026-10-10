@@ -1,0 +1,211 @@
+// Rewards wallet domain — PR1 scope: ledger + wallet core only.
+// RewardConfig, DailyStreak, Referral, Contribution and Withdrawal models
+// are added in their own PRs (see rewards design doc).
+
+enum LedgerEntryType {
+  STREAK_REWARD
+  REFERRAL_COMMISSION
+  CONTRIBUTION_REWARD
+  WITHDRAWAL_PAID
+  ADMIN_ADJUSTMENT
+
+  @@map("ledger_entry_type")
+}
+
+enum LedgerDirection {
+  CREDIT
+  DEBIT
+
+  @@map("ledger_direction")
+}
+
+// One row per user. balanceMinorUnits is a cache of the ledger sum, always
+// recomputed in the same DB transaction as the ledger insert that caused it.
+// version is the optimistic-concurrency token for safe concurrent writes.
+model WalletAccount {
+  id                String   @id @default(cuid())
+  userId            String   @unique @map("user_id")
+  balanceMinorUnits Int      @default(0) @map("balance_minor_units")
+  lockedMinorUnits  Int      @default(0) @map("locked_minor_units")
+  version           Int      @default(0)
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  user    User                @relation(fields: [userId], references: [id])
+  entries WalletLedgerEntry[]
+
+  @@map("wallet_accounts")
+}
+
+// Immutable, append-only. Rows are never updated or deleted — a correction
+// is always a new row. amountMinorUnits is always positive; direction says
+// whether it moved the balance up or down.
+model WalletLedgerEntry {
+  id                     String          @id @default(cuid())
+  walletAccountId        String          @map("wallet_account_id")
+  userId                 String          @map("user_id")
+  type                   LedgerEntryType
+  direction              LedgerDirection
+  amountMinorUnits       Int             @map("amount_minor_units")
+  balanceAfterMinorUnits Int             @map("balance_after_minor_units")
+  referenceType          String          @map("reference_type") @db.VarChar(40)
+  referenceId            String          @map("reference_id")
+  idempotencyKey         String          @unique @map("idempotency_key") @db.VarChar(200)
+  note                   String?         @db.Text
+  createdBy              String?         @map("created_by")
+  createdAt              DateTime        @default(now()) @map("created_at")
+
+  walletAccount WalletAccount @relation(fields: [walletAccountId], references: [id])
+  user          User          @relation(fields: [userId], references: [id])
+
+  @@index([userId, createdAt])
+  @@index([referenceType, referenceId])
+  @@map("wallet_ledger_entries")
+}
+
+// ───────────────────────── Config & budget (PR2 scope: streak + withdrawal fields only) ─────────────────────────
+
+// Single admin-editable row. Fields are added incrementally per PR — only
+// streak/withdrawal/budget fields exist so far; referral/contribution config
+// is added when those features are built.
+model RewardConfig {
+  id                              String   @id @default(cuid())
+  isSingleton                     Boolean  @default(true) @unique @map("is_singleton")
+  streakRateMinorUnitsPerDay      Int      @default(10) @map("streak_rate_minor_units_per_day")
+  streakFreeDays                  Int      @default(30) @map("streak_free_days")
+  streakPremiumDays               Int      @default(60) @map("streak_premium_days")
+  streakActivityGateFromDay       Int      @default(5) @map("streak_activity_gate_from_day")
+  streakGateMinQuestions          Int      @default(10) @map("streak_gate_min_questions")
+  streakGateMinSeconds            Int      @default(60) @map("streak_gate_min_seconds")
+  streakFreezesFreePerMonth       Int      @default(0) @map("streak_freezes_free_per_month")
+  streakFreezesPremiumPerMonth    Int      @default(1) @map("streak_freezes_premium_per_month")
+  withdrawalMinMinorUnits         Int      @default(10000) @map("withdrawal_min_minor_units") // 100 BDT
+  withdrawalRequiresVerifiedPhone Boolean  @default(true) @map("withdrawal_requires_verified_phone")
+  monthlyBudgetMinorUnits         Int      @default(500000) @map("monthly_budget_minor_units") // 5,000 BDT
+  updatedBy                       String?  @map("updated_by")
+  createdAt                       DateTime @default(now()) @map("created_at")
+  updatedAt                       DateTime @updatedAt @map("updated_at")
+
+  @@map("reward_configs")
+}
+
+// One row per calendar month ("2026-10"). Tracks spend against the configured
+// monthly budget so the streak check-in flow can pause crediting once exhausted.
+model RewardsBudgetPeriod {
+  id               String   @id @default(cuid())
+  yearMonth        String   @unique @map("year_month") @db.VarChar(7)
+  budgetMinorUnits Int      @map("budget_minor_units")
+  spentMinorUnits  Int      @default(0) @map("spent_minor_units")
+  isExhausted      Boolean  @default(false) @map("is_exhausted")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  @@map("rewards_budget_periods")
+}
+
+// ───────────────────────── Daily streak ─────────────────────────
+
+enum StreakStatus {
+  ACTIVE
+  LOST
+  COMPLETED
+
+  @@map("streak_status")
+}
+
+enum StreakRewardStatus {
+  CREDITED
+  QUEUED
+
+  @@map("streak_reward_status")
+}
+
+// One row per user — the current/most-recent cycle state.
+model DailyStreak {
+  id                   String       @id @default(cuid())
+  userId               String       @unique @map("user_id")
+  currentDay           Int          @default(0) @map("current_day")
+  longestStreak        Int          @default(0) @map("longest_streak")
+  cycleStartDate       DateTime?    @map("cycle_start_date") @db.Date
+  lastCheckInDate      DateTime?    @map("last_check_in_date") @db.Date
+  freezesUsedThisMonth Int          @default(0) @map("freezes_used_this_month")
+  freezesMonth         String?      @map("freezes_month") @db.VarChar(7) // "2026-10" — resets freezesUsedThisMonth when it changes
+  status               StreakStatus @default(ACTIVE)
+  completedCycles      Int          @default(0) @map("completed_cycles")
+  createdAt            DateTime     @default(now()) @map("created_at")
+  updatedAt            DateTime     @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("daily_streaks")
+}
+
+// Immutable log — one row per user per Asia/Dhaka calendar day. The unique
+// constraint is the DB-level duplicate check-in guard and also the
+// concurrency guard for simultaneous double-click requests.
+model StreakCheckIn {
+  id                 String              @id @default(cuid())
+  userId             String              @map("user_id")
+  dhakaDate          DateTime            @map("dhaka_date") @db.Date
+  dayNumber          Int                 @map("day_number")
+  rewardMinorUnits   Int                 @map("reward_minor_units")
+  rewardStatus       StreakRewardStatus  @map("reward_status")
+  activityGatePassed Boolean             @map("activity_gate_passed")
+  usedFreeze         Boolean             @default(false) @map("used_freeze")
+  ledgerEntryId      String?             @map("ledger_entry_id")
+  createdAt          DateTime            @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, dhakaDate])
+  @@map("streak_check_ins")
+}
+
+// ───────────────────────── Withdrawals ─────────────────────────
+
+enum WithdrawalStatus {
+  REQUESTED
+  APPROVED
+  PAID
+  REJECTED
+
+  @@map("withdrawal_status")
+}
+
+model WithdrawalRequest {
+  id                String           @id @default(cuid())
+  userId            String           @map("user_id")
+  amountMinorUnits  Int              @map("amount_minor_units")
+  method            PaymentMethod // reuse existing BKASH/NAGAD/ROCKET enum
+  destinationNumber String           @map("destination_number") @db.VarChar(20)
+  status            WithdrawalStatus @default(REQUESTED)
+  fraudFlag         Boolean          @default(false) @map("fraud_flag")
+  fraudReason       String?          @map("fraud_reason") @db.Text
+  paidTrxId         String?          @map("paid_trx_id") @db.VarChar(50)
+  adminNote         String?          @map("admin_note") @db.Text
+  reviewedBy        String?          @map("reviewed_by")
+  reviewedAt        DateTime?        @map("reviewed_at")
+  idempotencyKey    String           @unique @map("idempotency_key") @db.VarChar(100)
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
+
+  user  User                 @relation(fields: [userId], references: [id])
+  audit WithdrawalAuditLog[]
+
+  @@index([userId, status])
+  @@index([status, createdAt])
+  @@map("withdrawal_requests")
+}
+
+model WithdrawalAuditLog {
+  id                  String   @id @default(cuid())
+  withdrawalRequestId String   @map("withdrawal_request_id")
+  actorUserId         String   @map("actor_user_id") // admin id, or the requesting user for CREATED
+  action              String   @map("action") @db.VarChar(30) // CREATED|APPROVED|REJECTED|MARKED_PAID
+  note                String?  @db.Text
+  createdAt           DateTime @default(now()) @map("created_at")
+
+  request WithdrawalRequest @relation(fields: [withdrawalRequestId], references: [id])
+
+  @@map("withdrawal_audit_logs")
+}

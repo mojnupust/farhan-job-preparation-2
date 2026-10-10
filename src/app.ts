@@ -26,6 +26,10 @@ import { createDocxRoutes } from './features/docx/index.js';
 import { createSubExamCategoryRoutes } from './features/sub-exam-category/index.js';
 import { createSyllabusRoutes } from './features/syllabus/index.js';
 import { createVideoRoutes } from './features/video/index.js';
+import { createRewardConfigRoutes } from './features/reward-config/index.js';
+import { createStreakRoutes } from './features/streak/index.js';
+import { createWalletRoutes } from './features/wallet/index.js';
+import { createWithdrawalRoutes } from './features/withdrawal/index.js';
 import { correlationIdMiddleware } from './infrastructure/middleware/correlation-id.js';
 import { errorHandler } from './infrastructure/middleware/error-handler.js';
 import { hpp } from './infrastructure/middleware/hpp.js';
@@ -162,6 +166,10 @@ export function createApp(container: AwilixContainer) {
   app.use('/api/v1/integration-credentials', createIntegrationCredentialRoutes(container));
   app.use('/api/v1/broadcasts', createBroadcastLogRoutes(container));
   app.use('/api/v1/broadcast-automation/rules', createAutomationRuleRoutes(container));
+  app.use('/api/v1/wallet', createWalletRoutes(container));
+  app.use('/api/v1/reward-config', createRewardConfigRoutes(container));
+  app.use('/api/v1/streak', createStreakRoutes(container));
+  app.use('/api/v1/withdrawals', createWithdrawalRoutes(container));
 
   // Terminal middleware
   app.use(notFoundHandler);
