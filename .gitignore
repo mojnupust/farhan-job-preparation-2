@@ -8,6 +8,8 @@ lerna-debug.log*
 
 # Local scratch output (e.g. scripts/render-sample-slides.ts previews)
 tmp/
+gk-suggestion-somaj-seba-odidoptor/_pdf/
+gk-suggestion-somaj-seba-odidoptor/_text/
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json

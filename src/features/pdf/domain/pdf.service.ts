@@ -8,6 +8,7 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from '../../../shared/errors/http-errors.js';
+import { withExtension } from '../../../shared/utils/content-disposition.js';
 import type { PdfStorageService } from '../infra/pdf-storage.service.js';
 
 import type { PdfRepository } from './repository.contract.js';
@@ -24,6 +25,12 @@ import type {
 } from './types.js';
 
 const MAX_PDF_BYTES = 20 * 1024 * 1024; // 20MB
+
+function downloadFileName(title: string | undefined, originalName: string): string {
+  const ext = originalName.match(/\.[a-z0-9]{2,8}$/i)?.[0] ?? '.pdf';
+  const stem = title?.trim() || originalName.replace(/\.[^.]+$/, '') || 'document';
+  return withExtension(stem, ext).slice(0, 300);
+}
 
 export class PdfService {
   constructor(
@@ -77,7 +84,7 @@ export class PdfService {
         ...input,
         pageCount: input.pageCount ?? detectedPageCount,
         fileKey: 'pending',
-        fileName: file.originalName,
+        fileName: downloadFileName(input.title, file.originalName),
         fileSizeKb: Math.ceil(file.sizeBytes / 1024),
       },
       adminUserId,
@@ -93,6 +100,13 @@ export class PdfService {
     await this.getById(id, undefined, true);
 
     if (!file) {
+      if (input.title) {
+        const existing = await this.repository.findRawById(id);
+        return this.repository.update(id, {
+          ...input,
+          fileName: downloadFileName(input.title, existing?.fileName ?? 'document.pdf'),
+        });
+      }
       return this.repository.update(id, input);
     }
 
@@ -109,7 +123,7 @@ export class PdfService {
       ...input,
       pageCount: input.pageCount ?? detectedPageCount,
       fileKey: key,
-      fileName: file.originalName,
+      fileName: downloadFileName(input.title ?? raw?.title, file.originalName),
       fileSizeKb: Math.ceil(file.sizeBytes / 1024),
     });
   }
@@ -142,7 +156,7 @@ export class PdfService {
 
     await this.repository.incrementDownloadCount(id);
     const stream = await this.storage.getObjectStream(raw.fileKey);
-    return { stream, fileName: raw.fileName };
+    return { stream, fileName: downloadFileName(raw.title, raw.fileName) };
   }
 
   async toggleLike(pdfId: string, userId: string): Promise<{ liked: boolean; likeCount: number }> {

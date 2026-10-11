@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 
 import { HttpStatus } from '../../../../shared/constants/http-status.js';
 import { BadRequestError } from '../../../../shared/errors/http-errors.js';
+import { attachmentDisposition } from '../../../../shared/utils/content-disposition.js';
 import type { PdfService } from '../../domain/pdf.service.js';
 import type {
   CreateCommentInput,
@@ -90,7 +91,7 @@ export class PdfController {
     );
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
-    res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(fileName)}"`);
+    res.setHeader('Content-Disposition', attachmentDisposition(fileName, 'document.pdf'));
     stream.pipe(res);
   }
 

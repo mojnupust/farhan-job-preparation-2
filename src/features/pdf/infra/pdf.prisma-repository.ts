@@ -109,7 +109,7 @@ export class PdfPrismaRepository implements PdfRepository {
   async findRawById(id: string) {
     const row = await this.prisma.pdfDocument.findUnique({
       where: { id },
-      select: { id: true, fileKey: true, fileName: true, isFree: true, isActive: true },
+      select: { id: true, title: true, fileKey: true, fileName: true, isFree: true, isActive: true },
     });
     return row;
   }

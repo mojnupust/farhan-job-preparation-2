@@ -16,6 +16,7 @@ export interface PdfRepository {
   /** Raw row is needed internally (to read fileKey) — service.ts uses this, never exposed via mapper. */
   findRawById(id: string): Promise<{
     id: string;
+    title: string;
     fileKey: string;
     fileName: string;
     isFree: boolean;
