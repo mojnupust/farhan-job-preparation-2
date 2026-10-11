@@ -7,6 +7,7 @@ import { authConfig } from '../../../config/auth.js';
 import {
   BadRequestError,
   ConflictError,
+  ForbiddenError,
   NotFoundError,
   UnauthorizedError,
 } from '../../../shared/errors/http-errors.js';
@@ -47,10 +48,7 @@ export class AuthService {
     await this.repository.createOtp(input.mobile, code, expiresAt);
 
     // Send SMS (in dev, logged to console)
-    await this.sendSms(
-      input.mobile,
-      `Your Farhan MCQ OTP is: ${code}. Valid for ${OTP_EXPIRY_MINUTES} minutes.`,
-    );
+    await this.sendSms(input.mobile, `Your Farhan MCQ OTP is ${code}`);
 
     return {
       message: 'OTP sent successfully',
@@ -104,6 +102,11 @@ export class AuthService {
     const existingUser = await this.repository.findUserByMobile(input.mobile);
     if (existingUser) {
       throw new ConflictError('User already registered. Please login.');
+    }
+
+    const otpVerified = await this.repository.hasRecentVerifiedOtp(input.mobile);
+    if (!otpVerified) {
+      throw new ForbiddenError('আগে মোবাইল নম্বরে OTP যাচাই করুন');
     }
 
     const hashedPassword = await bcrypt.hash(input.password, SALT_ROUNDS);

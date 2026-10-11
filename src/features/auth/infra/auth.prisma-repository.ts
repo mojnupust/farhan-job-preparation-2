@@ -66,6 +66,18 @@ export class AuthPrismaRepository implements AuthRepository {
     });
   }
 
+  async hasRecentVerifiedOtp(mobile: string): Promise<boolean> {
+    const otp = await this.prisma.otp.findFirst({
+      where: {
+        mobile,
+        verified: true,
+        expiresAt: { gt: new Date() },
+      },
+      select: { id: true },
+    });
+    return otp !== null;
+  }
+
   async incrementOtpAttempts(id: string): Promise<void> {
     await this.prisma.otp.update({
       where: { id },

@@ -10,6 +10,7 @@ export interface AuthRepository {
   createOtp(mobile: string, code: string, expiresAt: Date): Promise<OtpRecord>;
   findValidOtp(mobile: string, code: string): Promise<OtpRecord | null>;
   markOtpVerified(id: string): Promise<void>;
+  hasRecentVerifiedOtp(mobile: string): Promise<boolean>;
   incrementOtpAttempts(id: string): Promise<void>;
   invalidateOtps(mobile: string): Promise<void>;
 

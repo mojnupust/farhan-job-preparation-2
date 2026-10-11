@@ -76,6 +76,8 @@ export const envSchema = z.object({
   MIMSMS_API_KEY: z.string().min(1).optional(),
   MIMSMS_USER_NAME: z.string().min(1).optional(),
   MIMSMS_SENDER_NAME: z.string().min(1).optional(),
+  BULKSMSBD_API_KEY: z.string().min(1).optional(),
+  BULKSMSBD_SENDER_ID: z.string().min(1).optional(),
   MINIO_ENDPOINT: z.string().min(1).default('localhost'),
   MINIO_PORT: z.coerce.number().int().min(1).max(65535).default(9000),
   // NOTE: z.coerce.boolean() would turn the string "false" into `true` (any non-empty string is
