@@ -3,9 +3,19 @@ import type { AwilixContainer } from 'awilix';
 import { Router } from 'express';
 
 import type { CacheService } from '../../../../infrastructure/cache/cache.service.js';
-import { authenticate, authorize } from '../../../../infrastructure/middleware/authenticate.js';
+import {
+  authenticate,
+  authorize,
+  optionalAuthenticate,
+} from '../../../../infrastructure/middleware/authenticate.js';
 import { validate } from '../../../../infrastructure/middleware/validate.js';
 import { NotFoundError } from '../../../../shared/errors/http-errors.js';
+import {
+  assertQuestionSetVisible,
+  assertQuestionVisible,
+  assertSubCategoryVisible,
+  isAdminRequest,
+} from '../../../../shared/utils/admin-only.js';
 import { asyncHandler } from '../../../../shared/utils/async-handler.js';
 import { QuestionSetService } from '../../domain/question-set.service.js';
 import { QuestionSetPrismaRepository } from '../../infra/question-set.prisma-repository.js';
@@ -53,8 +63,10 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
   // Public: Get live question set by sub-category slug
   router.get(
     '/live/:subCategorySlug',
+    optionalAuthenticate,
     asyncHandler(async (req, res) => {
       const slug = req.params.subCategorySlug!;
+      await assertSubCategoryVisible(prisma, req, slug);
       const subCategoryId = await resolveSubCategoryId(slug);
       const data = await cacheService.getOrSet(
         `question-sets:live:${slug}`,
@@ -69,14 +81,18 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
   router.get(
     '/public/random',
     asyncHandler(async (_req, res) => {
-      const count = await prisma.question.count({ where: { slug: { not: null } } });
+      const publicWhere = {
+        slug: { not: null },
+        questionSet: { subExamCategory: { isAdminOnly: false } },
+      };
+      const count = await prisma.question.count({ where: publicWhere });
       if (count === 0) {
         res.status(200).json({ data: null });
         return;
       }
       const skip = Math.floor(Math.random() * count);
       const question = await prisma.question.findFirst({
-        where: { slug: { not: null } },
+        where: publicWhere,
         skip,
         include: {
           questionSet: {
@@ -121,7 +137,7 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
         'question-sets:public-slugs',
         async () => {
           const rows = await prisma.question.findMany({
-            where: { slug: { not: null } },
+            where: { slug: { not: null }, questionSet: { subExamCategory: { isAdminOnly: false } } },
             select: { slug: true, updatedAt: true },
             orderBy: { updatedAt: 'desc' },
           });
@@ -144,6 +160,14 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
     '/public/question/:slug',
     asyncHandler(async (req, res) => {
       const slug = req.params.slug!;
+      // admin-only category-র প্রশ্ন public-এ সবসময় 404 (Google/anonymous কেউ দেখবে না)
+      const hidden = await prisma.question.findFirst({
+        where: { slug, questionSet: { subExamCategory: { isAdminOnly: true } } },
+        select: { id: true },
+      });
+      if (hidden) {
+        throw new NotFoundError('Question not found');
+      }
       const data = await cacheService.getOrSet(
         `question-sets:public-question:${slug}`,
         () => service.getPublicQuestionBySlug(slug),
@@ -156,8 +180,10 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
   // Public: Get archive question sets by sub-category slug
   router.get(
     '/archive/:subCategorySlug',
+    optionalAuthenticate,
     asyncHandler(async (req, res) => {
       const slug = req.params.subCategorySlug!;
+      await assertSubCategoryVisible(prisma, req, slug);
       const subCategoryId = await resolveSubCategoryId(slug);
       const data = await cacheService.getOrSet(
         `question-sets:archive:${slug}`,
@@ -279,6 +305,7 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
     authenticate,
     asyncHandler(async (req, res) => {
       const questionSetId = req.params.questionSetId!;
+      await assertQuestionSetVisible(prisma, req, questionSetId);
       const data = await cacheService.getOrSet(
         `question-sets:exam-questions:${questionSetId}`,
         () => service.getExamQuestions(questionSetId),
@@ -293,7 +320,10 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
     '/start-exam',
     authenticate,
     validate({ body: startExamSchema }),
-    asyncHandler((req, res) => controller.startExam(req, res)),
+    asyncHandler(async (req, res) => {
+      await assertQuestionSetVisible(prisma, req, req.body.questionSetId as string);
+      return controller.startExam(req, res);
+    }),
   );
 
   // Auth: Answer a question during exam
@@ -324,14 +354,20 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
   router.get(
     '/review-questions/:questionSetId',
     authenticate,
-    asyncHandler((req, res) => controller.getQuestionsForReview(req, res)),
+    asyncHandler(async (req, res) => {
+      await assertQuestionSetVisible(prisma, req, req.params.questionSetId!);
+      return controller.getQuestionsForReview(req, res);
+    }),
   );
 
   // Auth: Get question stats
   router.get(
     '/question-stats/:questionId',
     authenticate,
-    asyncHandler((req, res) => controller.getQuestionStats(req, res)),
+    asyncHandler(async (req, res) => {
+      await assertQuestionVisible(prisma, req, req.params.questionId!);
+      return controller.getQuestionStats(req, res);
+    }),
   );
 
   // --- Favorites ---
@@ -353,6 +389,9 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
       const take = Math.min(parseInt(limit ?? '50', 10), 100);
 
       const where: Record<string, unknown> = {};
+      if (!isAdminRequest(req)) {
+        where['questionSet'] = { subExamCategory: { isAdminOnly: false } };
+      }
       if (subject) where['subject'] = subject;
       if (topic) where['topic'] = topic;
 
@@ -437,7 +476,10 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
   router.get(
     '/:id',
     authenticate,
-    asyncHandler((req, res) => controller.getById(req, res)),
+    asyncHandler(async (req, res) => {
+      await assertQuestionSetVisible(prisma, req, req.params.id!);
+      return controller.getById(req, res);
+    }),
   );
 
   // Admin: Create

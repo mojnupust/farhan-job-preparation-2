@@ -23,6 +23,7 @@ export const updateSubExamCategorySchema = z.object({
   description: z.string().max(2000).optional(),
   sortOrder: z.number().int().min(0).optional(),
   isActive: z.boolean().optional(),
+  isAdminOnly: z.boolean().optional(),
 });
 
 const bulkUpsertSubExamCategoryItemSchema = z.object({

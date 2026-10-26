@@ -12,6 +12,7 @@ export const subExamCategoryMapper = {
       description: entity.description,
       sortOrder: entity.sortOrder,
       isActive: entity.isActive,
+      isAdminOnly: entity.isAdminOnly,
       createdAt: entity.createdAt,
     };
   },

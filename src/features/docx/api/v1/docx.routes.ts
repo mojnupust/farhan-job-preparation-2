@@ -1,7 +1,7 @@
 import type { PrismaClient } from '@prisma/client';
 import type { AwilixContainer } from 'awilix';
 import type { Queue } from 'bullmq';
-import { Router } from 'express';
+import { Router, type Request } from 'express';
 import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import type { Client as MinioClient } from 'minio';
 
@@ -12,6 +12,7 @@ import {
   optionalAuthenticate,
 } from '../../../../infrastructure/middleware/authenticate.js';
 import { validate } from '../../../../infrastructure/middleware/validate.js';
+import { assertDocxSetsAllowed } from '../../../../shared/utils/admin-only.js';
 import { asyncHandler } from '../../../../shared/utils/async-handler.js';
 import { DocxService } from '../../domain/docx.service.js';
 import type { DocxGenerationJobData } from '../../infra/docx-queue.js';
@@ -51,25 +52,51 @@ export function createDocxRoutes(container: AwilixContainer): Router {
     '/generate',
     generateLimiter,
     validate({ body: generateDocxSchema }),
-    asyncHandler((req, res) => controller.generate(req, res)),
+    asyncHandler(async (req, res) => {
+      // admin-only category-র set হলে শুধু ADMIN docx বানাতে পারবে
+      await assertDocxSetsAllowed(prisma, req, req.body.questionSetIds as string[]);
+      return controller.generate(req, res);
+    }),
   );
+
+  // আগে বানানো job/file-ও যেন documentId/jobId জানলে non-admin নামাতে না পারে
+  async function guardDocument(req: Request, documentId: string) {
+    const doc = await prisma.docxDocument.findUnique({
+      where: { id: documentId },
+      select: { questionSetIds: true },
+    });
+    if (doc) await assertDocxSetsAllowed(prisma, req, doc.questionSetIds);
+  }
 
   router.get(
     '/jobs/:jobId',
     validate({ params: jobIdParamsSchema }),
-    asyncHandler((req, res) => controller.getJobStatus(req, res)),
+    asyncHandler(async (req, res) => {
+      const job = await prisma.docxGenerationJob.findUnique({
+        where: { id: req.params.jobId! },
+        select: { questionSetIds: true },
+      });
+      if (job) await assertDocxSetsAllowed(prisma, req, job.questionSetIds);
+      return controller.getJobStatus(req, res);
+    }),
   );
 
   router.get(
     '/exports/:documentId/download',
     validate({ params: documentIdParamsSchema }),
-    asyncHandler((req, res) => controller.download(req, res)),
+    asyncHandler(async (req, res) => {
+      await guardDocument(req, req.params.documentId!);
+      return controller.download(req, res);
+    }),
   );
 
   router.get(
     '/exports/:documentId',
     validate({ params: documentIdParamsSchema }),
-    asyncHandler((req, res) => controller.getExport(req, res)),
+    asyncHandler(async (req, res) => {
+      await guardDocument(req, req.params.documentId!);
+      return controller.getExport(req, res);
+    }),
   );
 
   router.delete(

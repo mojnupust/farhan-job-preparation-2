@@ -404,6 +404,7 @@ export class QuestionSetPrismaRepository implements QuestionSetRepository {
       where: {
         id: { not: question.id },
         slug: { not: null },
+        questionSet: { subExamCategory: { isAdminOnly: false } },
         OR: [
           ...(question.topic && question.subject
             ? [{ topic: question.topic, subject: question.subject }]

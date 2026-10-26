@@ -1,0 +1,469 @@
+diff --git a/prisma/schema/exam.prisma b/prisma/schema/exam.prisma
+index 9a6de34..5dcf36a 100644
+--- a/prisma/schema/exam.prisma
++++ b/prisma/schema/exam.prisma
+@@ -23,6 +23,8 @@ model SubExamCategory {
+   description    String?  @db.Text
+   sortOrder      Int      @default(0) @map("sort_order")
+   isActive       Boolean  @default(true) @map("is_active")
++  // true হলে শুধু ADMIN এই sub-category, এর question set ও প্রশ্ন দেখতে/docx বানাতে পারবে
++  isAdminOnly    Boolean  @default(false) @map("is_admin_only")
+   createdAt      DateTime @default(now()) @map("created_at")
+   updatedAt      DateTime @updatedAt @map("updated_at")
+ 
+diff --git a/prisma/schema/migrations/20261026120000_add_is_admin_only_sub_exam_category/migration.sql b/prisma/schema/migrations/20261026120000_add_is_admin_only_sub_exam_category/migration.sql
+new file mode 100644
+index 0000000..9bd1835
+--- /dev/null
++++ b/prisma/schema/migrations/20261026120000_add_is_admin_only_sub_exam_category/migration.sql
+@@ -0,0 +1,5 @@
++-- AlterTable
++ALTER TABLE "sub_exam_categories" ADD COLUMN "is_admin_only" BOOLEAN NOT NULL DEFAULT false;
++
++-- Random Exams শুধু admin-এর জন্য
++UPDATE "sub_exam_categories" SET "is_admin_only" = true WHERE "slug" = 'random-exams';
+diff --git a/src/features/docx/api/v1/docx.routes.ts b/src/features/docx/api/v1/docx.routes.ts
+index 2db0689..906701e 100644
+--- a/src/features/docx/api/v1/docx.routes.ts
++++ b/src/features/docx/api/v1/docx.routes.ts
+@@ -1,7 +1,7 @@
+ import type { PrismaClient } from '@prisma/client';
+ import type { AwilixContainer } from 'awilix';
+ import type { Queue } from 'bullmq';
+-import { Router } from 'express';
++import { Router, type Request } from 'express';
+ import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
+ import type { Client as MinioClient } from 'minio';
+ 
+@@ -12,6 +12,7 @@ import {
+   optionalAuthenticate,
+ } from '../../../../infrastructure/middleware/authenticate.js';
+ import { validate } from '../../../../infrastructure/middleware/validate.js';
++import { assertDocxSetsAllowed } from '../../../../shared/utils/admin-only.js';
+ import { asyncHandler } from '../../../../shared/utils/async-handler.js';
+ import { DocxService } from '../../domain/docx.service.js';
+ import type { DocxGenerationJobData } from '../../infra/docx-queue.js';
+@@ -51,25 +52,51 @@ export function createDocxRoutes(container: AwilixContainer): Router {
+     '/generate',
+     generateLimiter,
+     validate({ body: generateDocxSchema }),
+-    asyncHandler((req, res) => controller.generate(req, res)),
++    asyncHandler(async (req, res) => {
++      // admin-only category-র set হলে শুধু ADMIN docx বানাতে পারবে
++      await assertDocxSetsAllowed(prisma, req, req.body.questionSetIds as string[]);
++      return controller.generate(req, res);
++    }),
+   );
+ 
++  // আগে বানানো job/file-ও যেন documentId/jobId জানলে non-admin নামাতে না পারে
++  async function guardDocument(req: Request, documentId: string) {
++    const doc = await prisma.docxDocument.findUnique({
++      where: { id: documentId },
++      select: { questionSetIds: true },
++    });
++    if (doc) await assertDocxSetsAllowed(prisma, req, doc.questionSetIds);
++  }
++
+   router.get(
+     '/jobs/:jobId',
+     validate({ params: jobIdParamsSchema }),
+-    asyncHandler((req, res) => controller.getJobStatus(req, res)),
++    asyncHandler(async (req, res) => {
++      const job = await prisma.docxGenerationJob.findUnique({
++        where: { id: req.params.jobId! },
++        select: { questionSetIds: true },
++      });
++      if (job) await assertDocxSetsAllowed(prisma, req, job.questionSetIds);
++      return controller.getJobStatus(req, res);
++    }),
+   );
+ 
+   router.get(
+     '/exports/:documentId/download',
+     validate({ params: documentIdParamsSchema }),
+-    asyncHandler((req, res) => controller.download(req, res)),
++    asyncHandler(async (req, res) => {
++      await guardDocument(req, req.params.documentId!);
++      return controller.download(req, res);
++    }),
+   );
+ 
+   router.get(
+     '/exports/:documentId',
+     validate({ params: documentIdParamsSchema }),
+-    asyncHandler((req, res) => controller.getExport(req, res)),
++    asyncHandler(async (req, res) => {
++      await guardDocument(req, req.params.documentId!);
++      return controller.getExport(req, res);
++    }),
+   );
+ 
+   router.delete(
+diff --git a/src/features/question-set/api/v1/question-set.routes.ts b/src/features/question-set/api/v1/question-set.routes.ts
+index 884a0e2..ecd0fa7 100644
+--- a/src/features/question-set/api/v1/question-set.routes.ts
++++ b/src/features/question-set/api/v1/question-set.routes.ts
+@@ -3,9 +3,19 @@ import type { AwilixContainer } from 'awilix';
+ import { Router } from 'express';
+ 
+ import type { CacheService } from '../../../../infrastructure/cache/cache.service.js';
+-import { authenticate, authorize } from '../../../../infrastructure/middleware/authenticate.js';
++import {
++  authenticate,
++  authorize,
++  optionalAuthenticate,
++} from '../../../../infrastructure/middleware/authenticate.js';
+ import { validate } from '../../../../infrastructure/middleware/validate.js';
+ import { NotFoundError } from '../../../../shared/errors/http-errors.js';
++import {
++  assertQuestionSetVisible,
++  assertQuestionVisible,
++  assertSubCategoryVisible,
++  isAdminRequest,
++} from '../../../../shared/utils/admin-only.js';
+ import { asyncHandler } from '../../../../shared/utils/async-handler.js';
+ import { QuestionSetService } from '../../domain/question-set.service.js';
+ import { QuestionSetPrismaRepository } from '../../infra/question-set.prisma-repository.js';
+@@ -53,8 +63,10 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
+   // Public: Get live question set by sub-category slug
+   router.get(
+     '/live/:subCategorySlug',
++    optionalAuthenticate,
+     asyncHandler(async (req, res) => {
+       const slug = req.params.subCategorySlug!;
++      await assertSubCategoryVisible(prisma, req, slug);
+       const subCategoryId = await resolveSubCategoryId(slug);
+       const data = await cacheService.getOrSet(
+         `question-sets:live:${slug}`,
+@@ -69,14 +81,18 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
+   router.get(
+     '/public/random',
+     asyncHandler(async (_req, res) => {
+-      const count = await prisma.question.count({ where: { slug: { not: null } } });
++      const publicWhere = {
++        slug: { not: null },
++        questionSet: { subExamCategory: { isAdminOnly: false } },
++      };
++      const count = await prisma.question.count({ where: publicWhere });
+       if (count === 0) {
+         res.status(200).json({ data: null });
+         return;
+       }
+       const skip = Math.floor(Math.random() * count);
+       const question = await prisma.question.findFirst({
+-        where: { slug: { not: null } },
++        where: publicWhere,
+         skip,
+         include: {
+           questionSet: {
+@@ -121,7 +137,7 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
+         'question-sets:public-slugs',
+         async () => {
+           const rows = await prisma.question.findMany({
+-            where: { slug: { not: null } },
++            where: { slug: { not: null }, questionSet: { subExamCategory: { isAdminOnly: false } } },
+             select: { slug: true, updatedAt: true },
+             orderBy: { updatedAt: 'desc' },
+           });
+@@ -144,6 +160,14 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
+     '/public/question/:slug',
+     asyncHandler(async (req, res) => {
+       const slug = req.params.slug!;
++      // admin-only category-র প্রশ্ন public-এ সবসময় 404 (Google/anonymous কেউ দেখবে না)
++      const hidden = await prisma.question.findFirst({
++        where: { slug, questionSet: { subExamCategory: { isAdminOnly: true } } },
++        select: { id: true },
++      });
++      if (hidden) {
++        throw new NotFoundError('Question not found');
++      }
+       const data = await cacheService.getOrSet(
+         `question-sets:public-question:${slug}`,
+         () => service.getPublicQuestionBySlug(slug),
+@@ -156,8 +180,10 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
+   // Public: Get archive question sets by sub-category slug
+   router.get(
+     '/archive/:subCategorySlug',
++    optionalAuthenticate,
+     asyncHandler(async (req, res) => {
+       const slug = req.params.subCategorySlug!;
++      await assertSubCategoryVisible(prisma, req, slug);
+       const subCategoryId = await resolveSubCategoryId(slug);
+       const data = await cacheService.getOrSet(
+         `question-sets:archive:${slug}`,
+@@ -279,6 +305,7 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
+     authenticate,
+     asyncHandler(async (req, res) => {
+       const questionSetId = req.params.questionSetId!;
++      await assertQuestionSetVisible(prisma, req, questionSetId);
+       const data = await cacheService.getOrSet(
+         `question-sets:exam-questions:${questionSetId}`,
+         () => service.getExamQuestions(questionSetId),
+@@ -293,7 +320,10 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
+     '/start-exam',
+     authenticate,
+     validate({ body: startExamSchema }),
+-    asyncHandler((req, res) => controller.startExam(req, res)),
++    asyncHandler(async (req, res) => {
++      await assertQuestionSetVisible(prisma, req, req.body.questionSetId as string);
++      return controller.startExam(req, res);
++    }),
+   );
+ 
+   // Auth: Answer a question during exam
+@@ -324,14 +354,20 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
+   router.get(
+     '/review-questions/:questionSetId',
+     authenticate,
+-    asyncHandler((req, res) => controller.getQuestionsForReview(req, res)),
++    asyncHandler(async (req, res) => {
++      await assertQuestionSetVisible(prisma, req, req.params.questionSetId!);
++      return controller.getQuestionsForReview(req, res);
++    }),
+   );
+ 
+   // Auth: Get question stats
+   router.get(
+     '/question-stats/:questionId',
+     authenticate,
+-    asyncHandler((req, res) => controller.getQuestionStats(req, res)),
++    asyncHandler(async (req, res) => {
++      await assertQuestionVisible(prisma, req, req.params.questionId!);
++      return controller.getQuestionStats(req, res);
++    }),
+   );
+ 
+   // --- Favorites ---
+@@ -353,6 +389,9 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
+       const take = Math.min(parseInt(limit ?? '50', 10), 100);
+ 
+       const where: Record<string, unknown> = {};
++      if (!isAdminRequest(req)) {
++        where['questionSet'] = { subExamCategory: { isAdminOnly: false } };
++      }
+       if (subject) where['subject'] = subject;
+       if (topic) where['topic'] = topic;
+ 
+@@ -437,7 +476,10 @@ export function createQuestionSetRoutes(container: AwilixContainer): Router {
+   router.get(
+     '/:id',
+     authenticate,
+-    asyncHandler((req, res) => controller.getById(req, res)),
++    asyncHandler(async (req, res) => {
++      await assertQuestionSetVisible(prisma, req, req.params.id!);
++      return controller.getById(req, res);
++    }),
+   );
+ 
+   // Admin: Create
+diff --git a/src/features/sub-exam-category/api/v1/sub-exam-category.routes.ts b/src/features/sub-exam-category/api/v1/sub-exam-category.routes.ts
+index fd08790..4233f07 100644
+--- a/src/features/sub-exam-category/api/v1/sub-exam-category.routes.ts
++++ b/src/features/sub-exam-category/api/v1/sub-exam-category.routes.ts
+@@ -3,9 +3,14 @@ import type { AwilixContainer } from 'awilix';
+ import { Router } from 'express';
+ 
+ import type { CacheService } from '../../../../infrastructure/cache/cache.service.js';
+-import { authenticate, authorize } from '../../../../infrastructure/middleware/authenticate.js';
++import {
++  authenticate,
++  authorize,
++  optionalAuthenticate,
++} from '../../../../infrastructure/middleware/authenticate.js';
+ import { validate } from '../../../../infrastructure/middleware/validate.js';
+ import { NotFoundError } from '../../../../shared/errors/http-errors.js';
++import { assertSubCategoryVisible, isAdminRequest } from '../../../../shared/utils/admin-only.js';
+ import { asyncHandler } from '../../../../shared/utils/async-handler.js';
+ import { SubExamCategoryService } from '../../domain/sub-exam-category.service.js';
+ import { SubExamCategoryPrismaRepository } from '../../infra/sub-exam-category.prisma-repository.js';
+@@ -34,14 +39,22 @@ export function createSubExamCategoryRoutes(container: AwilixContainer): Router
+   }
+ 
+   // Public: list all sub-categories (id + name and the rest of the DTO)
++  // admin-only sub-category শুধু ADMIN token থাকলে দেখা যায়; cache key আলাদা।
+   router.get(
+     '/',
++    optionalAuthenticate,
+     asyncHandler(async (req, res) => {
+       const activeOnly = req.query.activeOnly !== 'false';
+-      const cacheKey = activeOnly ? 'sub-categories:all' : 'sub-categories:all:inactive';
++      const admin = isAdminRequest(req);
++      const cacheKey =
++        (activeOnly ? 'sub-categories:all' : 'sub-categories:all:inactive') +
++        (admin ? ':admin' : '');
+       const data = await cacheService.getOrSet(
+         cacheKey,
+-        () => service.getAll(activeOnly),
++        async () => {
++          const all = await service.getAll(activeOnly);
++          return admin ? all : all.filter((s) => !s.isAdminOnly);
++        },
+         CACHE_TTL,
+       );
+       res.json({ data });
+@@ -51,6 +64,7 @@ export function createSubExamCategoryRoutes(container: AwilixContainer): Router
+   // Public: Get sub-categories by parent category slug
+   router.get(
+     '/by-category/:categorySlug',
++    optionalAuthenticate,
+     asyncHandler(async (req, res) => {
+       const categorySlug = req.params.categorySlug!;
+       const category = await prisma.examCategory.findUnique({
+@@ -60,9 +74,13 @@ export function createSubExamCategoryRoutes(container: AwilixContainer): Router
+       if (!category) {
+         throw new NotFoundError('Exam category not found');
+       }
++      const admin = isAdminRequest(req);
+       const data = await cacheService.getOrSet(
+-        `sub-categories:category:${categorySlug}`,
+-        () => service.getByCategoryId(category.id, true),
++        `sub-categories:category:${categorySlug}${admin ? ':admin' : ''}`,
++        async () => {
++          const all = await service.getByCategoryId(category.id, true);
++          return admin ? all : all.filter((s) => !s.isAdminOnly);
++        },
+         CACHE_TTL,
+       );
+       res.json({ data });
+@@ -94,7 +112,7 @@ export function createSubExamCategoryRoutes(container: AwilixContainer): Router
+         'sub-categories:sitemap',
+         async () => {
+           const rows = await prisma.subExamCategory.findMany({
+-            where: { isActive: true },
++            where: { isActive: true, isAdminOnly: false },
+             select: {
+               slug: true,
+               updatedAt: true,
+@@ -173,8 +191,10 @@ export function createSubExamCategoryRoutes(container: AwilixContainer): Router
+   // Public: Merit list for a sub-category
+   router.get(
+     '/merit-list/:subCategorySlug',
++    optionalAuthenticate,
+     asyncHandler(async (req, res) => {
+       const subCategorySlug = req.params.subCategorySlug!;
++      await assertSubCategoryVisible(prisma, req, subCategorySlug);
+       const sub = await prisma.subExamCategory.findUnique({
+         where: { slug: subCategorySlug },
+         select: { id: true },
+diff --git a/src/features/sub-exam-category/api/validation.ts b/src/features/sub-exam-category/api/validation.ts
+index 6925c21..835fcbb 100644
+--- a/src/features/sub-exam-category/api/validation.ts
++++ b/src/features/sub-exam-category/api/validation.ts
+@@ -23,6 +23,7 @@ export const updateSubExamCategorySchema = z.object({
+   description: z.string().max(2000).optional(),
+   sortOrder: z.number().int().min(0).optional(),
+   isActive: z.boolean().optional(),
++  isAdminOnly: z.boolean().optional(),
+ });
+ 
+ const bulkUpsertSubExamCategoryItemSchema = z.object({
+diff --git a/src/features/sub-exam-category/domain/mapper.ts b/src/features/sub-exam-category/domain/mapper.ts
+index d55fb7c..5bbc394 100644
+--- a/src/features/sub-exam-category/domain/mapper.ts
++++ b/src/features/sub-exam-category/domain/mapper.ts
+@@ -12,6 +12,7 @@ export const subExamCategoryMapper = {
+       description: entity.description,
+       sortOrder: entity.sortOrder,
+       isActive: entity.isActive,
++      isAdminOnly: entity.isAdminOnly,
+       createdAt: entity.createdAt,
+     };
+   },
+diff --git a/src/features/sub-exam-category/domain/types.ts b/src/features/sub-exam-category/domain/types.ts
+index 862dd85..b32b102 100644
+--- a/src/features/sub-exam-category/domain/types.ts
++++ b/src/features/sub-exam-category/domain/types.ts
+@@ -6,6 +6,7 @@ export interface SubExamCategoryDto {
+   description: string | null;
+   sortOrder: number;
+   isActive: boolean;
++  isAdminOnly: boolean;
+   createdAt: Date;
+ }
+ 
+@@ -23,6 +24,7 @@ export interface UpdateSubExamCategoryInput {
+   description?: string;
+   sortOrder?: number;
+   isActive?: boolean;
++  isAdminOnly?: boolean;
+ }
+ 
+ export interface BulkUpsertSubExamCategoryItem {
+diff --git a/src/shared/utils/admin-only.ts b/src/shared/utils/admin-only.ts
+new file mode 100644
+index 0000000..988b7ca
+--- /dev/null
++++ b/src/shared/utils/admin-only.ts
+@@ -0,0 +1,72 @@
++import type { PrismaClient } from '@prisma/client';
++import type { Request } from 'express';
++
++import { ForbiddenError, NotFoundError } from '../errors/http-errors.js';
++
++/** Request-এর token-এ role ADMIN থাকলে true (optionalAuthenticate/authenticate এর পরে কাজ করে). */
++export function isAdminRequest(req: Request): boolean {
++  return req.userRole === 'ADMIN';
++}
++
++/** Sub-category slug admin-only হলে non-admin-কে 404 দেয় (অস্তিত্বই লুকানো). */
++export async function assertSubCategoryVisible(
++  prisma: PrismaClient,
++  req: Request,
++  slug: string,
++): Promise<void> {
++  if (isAdminRequest(req)) return;
++  const sub = await prisma.subExamCategory.findUnique({
++    where: { slug },
++    select: { isAdminOnly: true },
++  });
++  if (!sub || sub.isAdminOnly) {
++    throw new NotFoundError('Sub exam category not found');
++  }
++}
++
++/** Question set admin-only category-র হলে non-admin-কে 404 দেয়. */
++export async function assertQuestionSetVisible(
++  prisma: PrismaClient,
++  req: Request,
++  questionSetId: string,
++): Promise<void> {
++  if (isAdminRequest(req)) return;
++  const set = await prisma.questionSet.findUnique({
++    where: { id: questionSetId },
++    select: { subExamCategory: { select: { isAdminOnly: true } } },
++  });
++  if (set?.subExamCategory.isAdminOnly) {
++    throw new NotFoundError('Question set not found');
++  }
++}
++
++/** Question-এর নিজের set admin-only category-র হলে non-admin-কে 404 দেয়. */
++export async function assertQuestionVisible(
++  prisma: PrismaClient,
++  req: Request,
++  questionId: string,
++): Promise<void> {
++  if (isAdminRequest(req)) return;
++  const q = await prisma.question.findUnique({
++    where: { id: questionId },
++    select: { questionSet: { select: { subExamCategory: { select: { isAdminOnly: true } } } } },
++  });
++  if (q?.questionSet.subExamCategory.isAdminOnly) {
++    throw new NotFoundError('Question not found');
++  }
++}
++
++/** এই id-গুলোর কোনোটা admin-only category-র হলে non-admin-কে 403 দেয় (docx এর জন্য). */
++export async function assertDocxSetsAllowed(
++  prisma: PrismaClient,
++  req: Request,
++  questionSetIds: string[],
++): Promise<void> {
++  if (isAdminRequest(req) || questionSetIds.length === 0) return;
++  const blocked = await prisma.questionSet.count({
++    where: { id: { in: questionSetIds }, subExamCategory: { isAdminOnly: true } },
++  });
++  if (blocked > 0) {
++    throw new ForbiddenError('Only admin can generate or download docx for this question set');
++  }
++}

@@ -37,7 +37,7 @@ import {
 
 // Recent Job Solution: cmtcom9r10001h301fq1h2q0j
 
-const DEFAULT_SUB_EXAM_CATEGORY_ID = 'cmubbgkak00qzah01zcsrtxxp';
+const DEFAULT_SUB_EXAM_CATEGORY_ID = 'cmtcom9r10001h301fq1h2q0j';
 const DEFAULT_DIR = 'seedFile';
 const QUESTION_BATCH = 80;
 

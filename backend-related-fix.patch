@@ -1,0 +1,12 @@
+diff --git a/src/features/question-set/infra/question-set.prisma-repository.ts b/src/features/question-set/infra/question-set.prisma-repository.ts
+index 6ea31f1..c891ed3 100644
+--- a/src/features/question-set/infra/question-set.prisma-repository.ts
++++ b/src/features/question-set/infra/question-set.prisma-repository.ts
+@@ -404,6 +404,7 @@ export class QuestionSetPrismaRepository implements QuestionSetRepository {
+       where: {
+         id: { not: question.id },
+         slug: { not: null },
++        questionSet: { subExamCategory: { isAdminOnly: false } },
+         OR: [
+           ...(question.topic && question.subject
+             ? [{ topic: question.topic, subject: question.subject }]

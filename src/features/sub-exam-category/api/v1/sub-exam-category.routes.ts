@@ -3,9 +3,14 @@ import type { AwilixContainer } from 'awilix';
 import { Router } from 'express';
 
 import type { CacheService } from '../../../../infrastructure/cache/cache.service.js';
-import { authenticate, authorize } from '../../../../infrastructure/middleware/authenticate.js';
+import {
+  authenticate,
+  authorize,
+  optionalAuthenticate,
+} from '../../../../infrastructure/middleware/authenticate.js';
 import { validate } from '../../../../infrastructure/middleware/validate.js';
 import { NotFoundError } from '../../../../shared/errors/http-errors.js';
+import { assertSubCategoryVisible, isAdminRequest } from '../../../../shared/utils/admin-only.js';
 import { asyncHandler } from '../../../../shared/utils/async-handler.js';
 import { SubExamCategoryService } from '../../domain/sub-exam-category.service.js';
 import { SubExamCategoryPrismaRepository } from '../../infra/sub-exam-category.prisma-repository.js';
@@ -34,14 +39,22 @@ export function createSubExamCategoryRoutes(container: AwilixContainer): Router 
   }
 
   // Public: list all sub-categories (id + name and the rest of the DTO)
+  // admin-only sub-category শুধু ADMIN token থাকলে দেখা যায়; cache key আলাদা।
   router.get(
     '/',
+    optionalAuthenticate,
     asyncHandler(async (req, res) => {
       const activeOnly = req.query.activeOnly !== 'false';
-      const cacheKey = activeOnly ? 'sub-categories:all' : 'sub-categories:all:inactive';
+      const admin = isAdminRequest(req);
+      const cacheKey =
+        (activeOnly ? 'sub-categories:all' : 'sub-categories:all:inactive') +
+        (admin ? ':admin' : '');
       const data = await cacheService.getOrSet(
         cacheKey,
-        () => service.getAll(activeOnly),
+        async () => {
+          const all = await service.getAll(activeOnly);
+          return admin ? all : all.filter((s) => !s.isAdminOnly);
+        },
         CACHE_TTL,
       );
       res.json({ data });
@@ -51,6 +64,7 @@ export function createSubExamCategoryRoutes(container: AwilixContainer): Router 
   // Public: Get sub-categories by parent category slug
   router.get(
     '/by-category/:categorySlug',
+    optionalAuthenticate,
     asyncHandler(async (req, res) => {
       const categorySlug = req.params.categorySlug!;
       const category = await prisma.examCategory.findUnique({
@@ -60,9 +74,13 @@ export function createSubExamCategoryRoutes(container: AwilixContainer): Router 
       if (!category) {
         throw new NotFoundError('Exam category not found');
       }
+      const admin = isAdminRequest(req);
       const data = await cacheService.getOrSet(
-        `sub-categories:category:${categorySlug}`,
-        () => service.getByCategoryId(category.id, true),
+        `sub-categories:category:${categorySlug}${admin ? ':admin' : ''}`,
+        async () => {
+          const all = await service.getByCategoryId(category.id, true);
+          return admin ? all : all.filter((s) => !s.isAdminOnly);
+        },
         CACHE_TTL,
       );
       res.json({ data });
@@ -94,7 +112,7 @@ export function createSubExamCategoryRoutes(container: AwilixContainer): Router 
         'sub-categories:sitemap',
         async () => {
           const rows = await prisma.subExamCategory.findMany({
-            where: { isActive: true },
+            where: { isActive: true, isAdminOnly: false },
             select: {
               slug: true,
               updatedAt: true,
@@ -173,8 +191,10 @@ export function createSubExamCategoryRoutes(container: AwilixContainer): Router 
   // Public: Merit list for a sub-category
   router.get(
     '/merit-list/:subCategorySlug',
+    optionalAuthenticate,
     asyncHandler(async (req, res) => {
       const subCategorySlug = req.params.subCategorySlug!;
+      await assertSubCategoryVisible(prisma, req, subCategorySlug);
       const sub = await prisma.subExamCategory.findUnique({
         where: { slug: subCategorySlug },
         select: { id: true },

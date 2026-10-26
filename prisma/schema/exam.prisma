@@ -23,6 +23,8 @@ model SubExamCategory {
   description    String?  @db.Text
   sortOrder      Int      @default(0) @map("sort_order")
   isActive       Boolean  @default(true) @map("is_active")
+  // true হলে শুধু ADMIN এই sub-category, এর question set ও প্রশ্ন দেখতে/docx বানাতে পারবে
+  isAdminOnly    Boolean  @default(false) @map("is_admin_only")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 

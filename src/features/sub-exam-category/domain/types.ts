@@ -6,6 +6,7 @@ export interface SubExamCategoryDto {
   description: string | null;
   sortOrder: number;
   isActive: boolean;
+  isAdminOnly: boolean;
   createdAt: Date;
 }
 
@@ -23,6 +24,7 @@ export interface UpdateSubExamCategoryInput {
   description?: string;
   sortOrder?: number;
   isActive?: boolean;
+  isAdminOnly?: boolean;
 }
 
 export interface BulkUpsertSubExamCategoryItem {
