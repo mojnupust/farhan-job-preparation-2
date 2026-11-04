@@ -187,6 +187,25 @@ function mcqPageUrl(siteBaseUrl: string, slug: string | null | undefined): strin
   return `${origin}/mcq/${slug}`;
 }
 
+/**
+ * Splits text on newlines into TextRuns, inserting a line break (`break: 1`)
+ * before every line after the first so multi-line explanations render with
+ * the same line breaks in Word instead of being collapsed onto one line.
+ */
+function multilineTextRuns(
+  text: string,
+  runProps: { color?: string; font?: string; size?: number },
+): TextRun[] {
+  return text.split(/\r\n|\r|\n/).map(
+    (line, i) =>
+      new TextRun({
+        ...runProps,
+        text: line,
+        ...(i > 0 ? { break: 1 } : {}),
+      }),
+  );
+}
+
 function explanationBlock(
   theme: ReturnType<typeof buildTheme>,
   question: QuestionForDocx,
@@ -213,8 +232,7 @@ function explanationBlock(
             font: theme.fontBn,
             size: theme.sizes.explanationLabel,
           }),
-          new TextRun({
-            text: truncated ? `${shown} ...` : shown,
+          ...multilineTextRuns(truncated ? `${shown} ...` : shown, {
             color: theme.colors.explanationText ?? undefined,
             font: theme.fontBn,
             size: theme.sizes.explanationText,
